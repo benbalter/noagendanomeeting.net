@@ -4,5 +4,8 @@
 name = "noagendanomeeting-net"
 compatibility_date = "2026-04-05"
 
+[build]
+command = "npm install && npm run build"
+
 [assets]
 directory = "dist"
