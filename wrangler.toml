@@ -5,4 +5,4 @@ name = "noagendanomeeting-net"
 compatibility_date = "2026-04-05"
 
 [assets]
-directory = "."
+directory = "dist"

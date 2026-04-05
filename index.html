@@ -17,7 +17,7 @@
   <meta name="twitter:title" content="No Agenda, No Meeting">
   <meta name="twitter:description" content="A meeting without an agenda is like calling a function without documentation. Please don't send meeting invites without one.">
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/src/styles.css">
 </head>
 <body class="font-sans leading-relaxed text-[#1a1a2e] bg-neutral-50 antialiased">
   <main class="max-w-[640px] mx-auto pt-8 px-4 pb-6 sm:pt-12 sm:px-6 sm:pb-8">
@@ -117,7 +117,7 @@
 
     <div class="bg-gray-50 border border-dashed border-gray-300 rounded-lg py-4 px-5 my-6 text-sm text-gray-600 text-center">
       Got an invite without an agenda? Share this page:<br>
-      <button onclick="navigator.clipboard.writeText('https://noagendanomeeting.net').then(()=>{const e=this;e.textContent='Copied!';setTimeout(()=>{e.innerHTML='noagendanomeeting.net <span class=\'ml-1.5 text-gray-400\'>📋</span>'},2000)})" class="mt-2 inline-flex items-center bg-white border border-gray-300 py-1 px-3 rounded-md font-mono text-sm text-blue-600 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors">noagendanomeeting.net <span class="ml-1.5 text-gray-400">📋</span></button>
+      <button data-copy-url="https://noagendanomeeting.net" class="mt-2 inline-flex items-center bg-white border border-gray-300 py-1 px-3 rounded-md font-mono text-sm text-blue-600 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors">noagendanomeeting.net <span class="ml-1.5 text-gray-400">📋</span></button>
     </div>
 
     <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl py-6 px-6 mt-4 text-center">
@@ -126,5 +126,6 @@
       <a href="https://openandasync.com" class="inline-block mt-4 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors no-underline">Learn more &rarr;</a>
     </div>
   </main>
+  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

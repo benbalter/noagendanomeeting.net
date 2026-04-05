@@ -1,0 +1,42 @@
+{
+  "name": "noagendanomeeting-net",
+  "version": "1.0.0",
+  "private": true,
+  "description": "No agenda, no meeting. A static site reminding people to include agendas in meeting invites.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "format": "prettier --write '**/*.{ts,js,mjs,json,html,css,md}'",
+    "format:check": "prettier --check '**/*.{ts,js,mjs,json,html,css,md}'",
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck && npm run format:check && npm run test && npm run build",
+    "ci": "npm run validate",
+    "clean": "rm -rf dist coverage node_modules/.vite"
+  },
+  "keywords": [
+    "meetings",
+    "productivity",
+    "agenda",
+    "async-work"
+  ],
+  "author": "Ben Balter",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jsdom": "^28.0.1",
+    "@types/node": "^25.5.2",
+    "@vitest/coverage-v8": "^4.1.2",
+    "autoprefixer": "^10.4.27",
+    "jsdom": "^29.0.1",
+    "postcss": "^8.5.8",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3",
+    "vitest": "^4.1.2"
+  }
+}
