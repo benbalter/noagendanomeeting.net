@@ -1,3 +1,112 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111827;
+    color: #e5e7eb;
+  }
+
+  /* Calendar invite cards */
+  .border-gray-300 {
+    border-color: #374151;
+  }
+  .bg-white {
+    background-color: #1f2937;
+  }
+  .border-gray-100 {
+    border-color: #374151;
+  }
+
+  /* Bad invite header */
+  .bg-red-50 {
+    background-color: #451a1a;
+  }
+  .text-red-800 {
+    color: #fca5a5;
+  }
+  .border-red-300 {
+    border-color: #991b1b;
+  }
+
+  /* Good invite header */
+  .bg-green-50 {
+    background-color: #14532d;
+  }
+  .text-green-800 {
+    color: #86efac;
+  }
+  .border-green-300 {
+    border-color: #166534;
+  }
+
+  /* Text colors */
+  .text-gray-500 {
+    color: #9ca3af;
+  }
+  .text-gray-600 {
+    color: #9ca3af;
+  }
+  .text-gray-700 {
+    color: #d1d5db;
+  }
+  .text-gray-400 {
+    color: #6b7280;
+  }
+  .text-gray-300 {
+    color: #4b5563;
+  }
+  .text-\[\#1a1a2e\] {
+    color: #e5e7eb;
+  }
+
+  /* Stat callout */
+  .bg-blue-50 {
+    background-color: #1e3a5f;
+  }
+  .border-blue-500 {
+    border-color: #3b82f6;
+  }
+  .text-blue-800 {
+    color: #93c5fd;
+  }
+
+  /* Share box */
+  .bg-gray-50 {
+    background-color: #1f2937;
+  }
+  .border-dashed {
+    border-color: #374151;
+  }
+
+  /* Copy button */
+  button[data-copy-url] {
+    background-color: #111827;
+    border-color: #374151;
+  }
+
+  /* Dividers */
+  .border-gray-200,
+  hr {
+    border-color: #374151;
+  }
+}
+
+@media print {
+  .book-promo {
+    background: #fff !important;
+    color: #1a1a2e !important;
+    border: 1px solid #e5e7eb;
+  }
+  .book-promo a {
+    color: #1a1a2e !important;
+  }
+  .book-promo .text-slate-300 {
+    color: #6b7280 !important;
+  }
+  .book-promo .bg-\[\#3b82f6\] {
+    background: #3b82f6 !important;
+    color: #fff !important;
+  }
+}

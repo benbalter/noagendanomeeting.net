@@ -3,7 +3,11 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   content: ["./index.html", "./src/**/*.{ts,js}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "serif-display": ['"DM Serif Display"', "serif"],
+      },
+    },
   },
   plugins: [],
 };
