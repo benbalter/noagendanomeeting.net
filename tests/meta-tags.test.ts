@@ -83,4 +83,15 @@ describe("SEO Meta Tags Consistency", () => {
     const ogTitle = document.querySelector('meta[property="og:title"]')?.getAttribute("content");
     expect(ogTitle).toBe(document.title);
   });
+
+  it("should have a canonical URL pointing to the production site", () => {
+    const link = document.querySelector('link[rel="canonical"]');
+    expect(link).not.toBeNull();
+    expect(link?.getAttribute("href")).toBe("https://noagendanomeeting.net");
+  });
+
+  it("should have theme-color meta tags for light and dark modes", () => {
+    const themeTags = document.querySelectorAll('meta[name="theme-color"]');
+    expect(themeTags.length).toBeGreaterThanOrEqual(1);
+  });
 });

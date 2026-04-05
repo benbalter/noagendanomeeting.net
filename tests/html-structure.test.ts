@@ -74,4 +74,14 @@ describe("HTML Document Structure", () => {
   it("should not load Tailwind from a CDN", () => {
     expect(rawHTML).not.toContain("cdn.tailwindcss.com");
   });
+
+  it("should preconnect to Google Fonts", () => {
+    const preconnect = document.querySelector('link[rel="preconnect"][href*="fonts.googleapis"]');
+    expect(preconnect).not.toBeNull();
+  });
+
+  it("should have a canonical URL link", () => {
+    const canonical = document.querySelector('link[rel="canonical"]');
+    expect(canonical).not.toBeNull();
+  });
 });

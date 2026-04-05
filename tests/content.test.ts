@@ -59,6 +59,27 @@ describe("Page Content", () => {
     expect(link?.textContent).toContain("Open & Async");
   });
 
+  it("should have a Get the book call-to-action", () => {
+    const links = Array.from(document.querySelectorAll('a[href="https://openandasync.com"]'));
+    const cta = links.find((a) => a.textContent?.includes("Get the book"));
+    expect(cta).toBeDefined();
+  });
+
+  it("should have blue punctuation in the heading", () => {
+    const h1 = document.querySelector("h1");
+    const blueSpans = h1?.querySelectorAll("span") ?? [];
+    expect(blueSpans.length).toBeGreaterThanOrEqual(2);
+    expect(h1?.textContent).toContain(",");
+    expect(h1?.textContent).toContain(".");
+  });
+
+  it("should credit nohello.net as inspiration", () => {
+    const link = document.querySelector('a[href="https://nohello.net"]');
+    expect(link).not.toBeNull();
+    const footer = document.querySelector("footer");
+    expect(footer?.textContent).toContain("nohello.net");
+  });
+
   it("should have at least 4 h2 headings", () => {
     expect(document.querySelectorAll("h2").length).toBeGreaterThanOrEqual(4);
   });
