@@ -117,7 +117,7 @@
 
     <div class="bg-gray-50 border border-dashed border-gray-300 rounded-lg py-4 px-5 my-6 text-sm text-gray-600 text-center">
       Got an invite without an agenda? Share this page:<br>
-      <code class="inline-block bg-white border border-gray-300 py-0.5 px-2 rounded font-mono text-sm text-blue-600 select-all">noagendanomeeting.net</code>
+      <button onclick="navigator.clipboard.writeText('https://noagendanomeeting.net').then(()=>{const e=this;e.textContent='Copied!';setTimeout(()=>{e.innerHTML='noagendanomeeting.net <span class=\'ml-1.5 text-gray-400\'>📋</span>'},2000)})" class="mt-2 inline-flex items-center bg-white border border-gray-300 py-1 px-3 rounded-md font-mono text-sm text-blue-600 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors">noagendanomeeting.net <span class="ml-1.5 text-gray-400">📋</span></button>
     </div>
 
     <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl py-6 px-6 mt-4 text-center">
