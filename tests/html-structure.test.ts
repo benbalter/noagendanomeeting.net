@@ -34,6 +34,10 @@ describe("HTML Document Structure", () => {
     expect(document.querySelectorAll("main")).toHaveLength(1);
   });
 
+  it("should have a <footer> element", () => {
+    expect(document.querySelectorAll("footer")).toHaveLength(1);
+  });
+
   it("should have exactly one <h1> element", () => {
     expect(document.querySelectorAll("h1")).toHaveLength(1);
   });
@@ -46,6 +50,11 @@ describe("HTML Document Structure", () => {
     const meta = document.querySelector('meta[name="description"]');
     expect(meta).not.toBeNull();
     expect(meta?.getAttribute("content")).toBeTruthy();
+  });
+
+  it("should have a favicon", () => {
+    const link = document.querySelector('link[rel="icon"]');
+    expect(link).not.toBeNull();
   });
 
   it("should link to the stylesheet", () => {

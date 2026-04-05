@@ -28,6 +28,12 @@ describe("_headers file", () => {
     expect(headers).toContain("Permissions-Policy:");
   });
 
+  it("should set a Content-Security-Policy", () => {
+    expect(headers).toContain("Content-Security-Policy:");
+    expect(headers).toContain("default-src 'none'");
+    expect(headers).toContain("script-src 'self'");
+  });
+
   it("should deny camera, microphone, and geolocation", () => {
     expect(headers).toContain("camera=()");
     expect(headers).toContain("microphone=()");

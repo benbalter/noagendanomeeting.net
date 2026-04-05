@@ -47,7 +47,7 @@ describe("Calendar Invite Examples", () => {
     });
   });
 
-  it("should have a read-ahead link in the good example", () => {
+  it("should have a read-ahead mention in the good example", () => {
     const text = document.querySelector("main")?.textContent ?? "";
     expect(text).toContain("Read-ahead");
   });

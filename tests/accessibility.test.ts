@@ -59,6 +59,15 @@ describe("Accessibility", () => {
     expect(uls.length + ols.length).toBeGreaterThan(0);
   });
 
+  it("should have rel=noopener on external links", () => {
+    const externalLinks = Array.from(document.querySelectorAll("a[href]")).filter(
+      (a) => a.getAttribute("href")?.startsWith("http"),
+    );
+    externalLinks.forEach((link) => {
+      expect(link.getAttribute("rel")).toContain("noopener");
+    });
+  });
+
   it("should have no links with generic click here text", () => {
     const links = document.querySelectorAll("a");
     links.forEach((link) => {

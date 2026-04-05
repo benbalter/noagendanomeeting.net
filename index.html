@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>No Agenda, No Meeting</title>
   <meta name="description" content="Please don't send meeting invites without an agenda.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -72,7 +73,7 @@
             <li class="py-0.5">Decision: go/no-go for the beta release (15 min)</li>
           </ol>
         </div>
-        <div class="mt-2 text-sm">📎 Read-ahead: <a href="#" class="text-blue-600 no-underline">Q3 launch status doc</a></div>
+        <div class="mt-2 text-sm">📎 Read-ahead: <span class="text-blue-600">Q3 launch status doc</span></div>
       </div>
       <p class="text-[0.95rem] text-gray-600 py-3 px-4 border-t border-gray-100 italic !mt-0">Everyone arrives prepared. The meeting is focused. Better decisions get made. ✨</p>
     </div>
@@ -114,18 +115,20 @@
     <p class="mb-4">Writing scales; meetings don't. A well-written document can reach hundreds of people at their convenience without interrupting anyone's flow. A meeting reaches only the people in the room, only at that exact moment.</p>
 
     <hr class="border-t border-gray-200 my-10">
+  </main>
 
+  <footer class="max-w-[640px] mx-auto px-4 pb-8 sm:px-6">
     <div class="bg-gray-50 border border-dashed border-gray-300 rounded-lg py-4 px-5 my-6 text-sm text-gray-600 text-center">
       Got an invite without an agenda? Share this page:<br>
       <button data-copy-url="https://noagendanomeeting.net" class="mt-2 inline-flex items-center bg-white border border-gray-300 py-1 px-3 rounded-md font-mono text-sm text-blue-600 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors">noagendanomeeting.net <span class="ml-1.5 text-gray-400">📋</span></button>
     </div>
 
     <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl py-6 px-6 mt-4 text-center">
-      <p class="text-base text-gray-700 leading-relaxed">Adapted from <a class="text-blue-700 font-bold hover:underline italic" href="https://openandasync.com">Open and Async</a> by Ben Balter</p>
+      <p class="text-base text-gray-700 leading-relaxed">Adapted from <a class="text-blue-700 font-bold hover:underline italic" href="https://openandasync.com" rel="noopener">Open and Async</a> by Ben Balter</p>
       <p class="text-sm text-gray-500 mt-1">A playbook for remote and distributed software teams that actually work.</p>
-      <a href="https://openandasync.com" class="inline-block mt-4 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors no-underline">Learn more &rarr;</a>
+      <a href="https://openandasync.com" rel="noopener" class="inline-block mt-4 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors no-underline">Learn more &rarr;</a>
     </div>
-  </main>
+  </footer>
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
