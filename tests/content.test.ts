@@ -53,10 +53,10 @@ describe("Page Content", () => {
     expect(button?.getAttribute("data-copy-url")).toBe("https://noagendanomeeting.net");
   });
 
-  it("should link to the Open and Async book", () => {
+  it("should link to the Open & Async book", () => {
     const link = document.querySelector('a[href="https://openandasync.com"]');
     expect(link).not.toBeNull();
-    expect(link?.textContent).toContain("Open and Async");
+    expect(link?.textContent).toContain("Open & Async");
   });
 
   it("should have at least 4 h2 headings", () => {
