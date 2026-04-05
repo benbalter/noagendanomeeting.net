@@ -1,25 +1,8 @@
-# Cloudflare Pages configuration
-# https://developers.cloudflare.com/pages/configuration/wrangler-configuration/
+# Cloudflare Workers static site configuration
+# https://developers.cloudflare.com/workers/static-assets/
 
 name = "noagendanomeeting-net"
 compatibility_date = "2026-04-05"
-pages_build_output_dir = "."
 
-# No build command — static HTML, served as-is
-# [build]
-# command = ""
-
-# Custom headers
-[[headers]]
-for = "/*"
-[headers.values]
-  X-Content-Type-Options = "nosniff"
-  X-Frame-Options = "DENY"
-  Referrer-Policy = "strict-origin-when-cross-origin"
-  Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-  Cache-Control = "public, max-age=3600"
-
-[[headers]]
-for = "/index.html"
-[headers.values]
-  Cache-Control = "public, max-age=600"
+[assets]
+directory = "."
