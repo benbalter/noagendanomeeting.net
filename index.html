@@ -13,9 +13,12 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>"
     />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="No Agenda, No Meeting" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="No Agenda, No Meeting" />
     <meta
       property="og:description"
@@ -43,12 +46,6 @@
     <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="/src/styles.css" />
 
     <!-- Structured Data -->
@@ -304,6 +301,7 @@
       >
         Got an invite without an agenda? Share this page:<br />
         <button
+          aria-label="Copy URL to clipboard"
           data-copy-url="https://noagendanomeeting.net"
           class="mt-2 inline-flex cursor-pointer items-center rounded-md border border-gray-300 bg-white px-3 py-1 font-mono text-sm text-blue-600 transition-colors hover:border-blue-400 hover:bg-blue-50"
         >

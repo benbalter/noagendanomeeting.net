@@ -75,9 +75,9 @@ describe("HTML Document Structure", () => {
     expect(rawHTML).not.toContain("cdn.tailwindcss.com");
   });
 
-  it("should preconnect to Google Fonts", () => {
+  it("should self-host fonts instead of using Google Fonts CDN", () => {
     const preconnect = document.querySelector('link[rel="preconnect"][href*="fonts.googleapis"]');
-    expect(preconnect).not.toBeNull();
+    expect(preconnect).toBeNull();
   });
 
   it("should have a canonical URL link", () => {
