@@ -22,9 +22,7 @@ describe("createCopyHandler", () => {
   it("should copy the URL to clipboard when called", async () => {
     const handler = createCopyHandler(button, "https://noagendanomeeting.net");
     await handler();
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-      "https://noagendanomeeting.net",
-    );
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("https://noagendanomeeting.net");
   });
 
   it("should show Copied! text after copying", async () => {

@@ -77,9 +77,7 @@ describe("_redirects file", () => {
   });
 
   it("should have valid redirect format (source destination status)", () => {
-    const lines = redirects
-      .split("\n")
-      .filter((l) => l.trim().length > 0);
+    const lines = redirects.split("\n").filter((l) => l.trim().length > 0);
     lines.forEach((line) => {
       const parts = line.trim().split(/\s+/);
       expect(parts.length).toBe(3);

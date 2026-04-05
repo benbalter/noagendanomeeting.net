@@ -60,8 +60,8 @@ describe("Accessibility", () => {
   });
 
   it("should have rel=noopener on external links", () => {
-    const externalLinks = Array.from(document.querySelectorAll("a[href]")).filter(
-      (a) => a.getAttribute("href")?.startsWith("http"),
+    const externalLinks = Array.from(document.querySelectorAll("a[href]")).filter((a) =>
+      a.getAttribute("href")?.startsWith("http"),
     );
     externalLinks.forEach((link) => {
       expect(link.getAttribute("rel")).toContain("noopener");

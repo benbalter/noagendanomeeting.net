@@ -62,9 +62,7 @@ describe("SEO Meta Tags Consistency", () => {
   });
 
   it("should have matching og:title and twitter:title", () => {
-    const ogTitle = document
-      .querySelector('meta[property="og:title"]')
-      ?.getAttribute("content");
+    const ogTitle = document.querySelector('meta[property="og:title"]')?.getAttribute("content");
     const twitterTitle = document
       .querySelector('meta[name="twitter:title"]')
       ?.getAttribute("content");
@@ -82,9 +80,7 @@ describe("SEO Meta Tags Consistency", () => {
   });
 
   it("should have og:title matching the document title", () => {
-    const ogTitle = document
-      .querySelector('meta[property="og:title"]')
-      ?.getAttribute("content");
+    const ogTitle = document.querySelector('meta[property="og:title"]')?.getAttribute("content");
     expect(ogTitle).toBe(document.title);
   });
 });

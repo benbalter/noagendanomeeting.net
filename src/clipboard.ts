@@ -1,7 +1,4 @@
-export function createCopyHandler(
-  button: HTMLButtonElement,
-  url: string,
-): () => Promise<void> {
+export function createCopyHandler(button: HTMLButtonElement, url: string): () => Promise<void> {
   const originalHTML = button.innerHTML;
 
   return async () => {
@@ -31,10 +28,8 @@ function fallbackCopy(text: string): void {
 }
 
 export function initClipboard(): void {
-  document
-    .querySelectorAll<HTMLButtonElement>("[data-copy-url]")
-    .forEach((button) => {
-      const url = button.getAttribute("data-copy-url") ?? "";
-      button.addEventListener("click", createCopyHandler(button, url));
-    });
+  document.querySelectorAll<HTMLButtonElement>("[data-copy-url]").forEach((button) => {
+    const url = button.getAttribute("data-copy-url") ?? "";
+    button.addEventListener("click", createCopyHandler(button, url));
+  });
 }

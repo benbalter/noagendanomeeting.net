@@ -10,9 +10,7 @@ describe("Calendar Invite Examples", () => {
 
   it("should have exactly two calendar invite headers", () => {
     const allDivs = Array.from(document.querySelectorAll("div"));
-    const inviteHeaders = allDivs.filter(
-      (el) => el.textContent?.trim() === "📅 Calendar Invite",
-    );
+    const inviteHeaders = allDivs.filter((el) => el.textContent?.trim() === "📅 Calendar Invite");
     expect(inviteHeaders).toHaveLength(2);
   });
 
