@@ -47,6 +47,13 @@
     <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)" />
 
     <link rel="stylesheet" href="/src/styles.css" />
+    <link
+      rel="preload"
+      href="/fonts/dm-serif-display-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -75,7 +82,12 @@
     </script>
   </head>
   <body class="bg-neutral-50 font-sans text-base leading-relaxed text-[#1a1a2e] antialiased">
-    <main class="mx-auto max-w-[640px] px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-12">
+    <a
+      href="#content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-blue-600 focus:shadow"
+      >Skip to content</a
+    >
+    <main id="content" class="mx-auto max-w-[640px] px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-12">
       <article>
         <h1 class="mb-3 font-serif-display text-3xl leading-[1.1] tracking-tight sm:text-[2.5rem]">
           No Agenda<span class="text-[#3b82f6]">,</span> No Meeting<span class="text-[#3b82f6]"
