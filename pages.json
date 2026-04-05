@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/@cloudflare/pages-build-config@latest/schema.json",
+  "build_command": "",
+  "build_output_directory": ".",
+  "root_directory": ""
+}

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Agenda, No Meeting</title>
+  <meta name="description" content="Please don't send meeting invites without an agenda.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="No Agenda, No Meeting">
+  <meta property="og:description" content="A meeting without an agenda is like calling a function without documentation. Please don't send meeting invites without one.">
+  <meta property="og:url" content="https://noagendanomeeting.net">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="No Agenda, No Meeting">
+  <meta name="twitter:description" content="A meeting without an agenda is like calling a function without documentation. Please don't send meeting invites without one.">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1a1a2e;
+      background: #fafafa;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 2rem;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: #555;
+      margin-bottom: 2.5rem;
+    }
+
+    .hook {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .hook em {
+      font-style: normal;
+      text-decoration: underline;
+      text-decoration-color: #e74c3c;
+      text-underline-offset: 3px;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h2 .icon {
+      font-size: 1.3rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    /* Calendar invite mockups */
+    .invite {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 1rem 0 1.5rem;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .invite-header {
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .invite-bad .invite-header {
+      background: #fef2f2;
+      color: #991b1b;
+      border-bottom: 2px solid #fca5a5;
+    }
+
+    .invite-good .invite-header {
+      background: #f0fdf4;
+      color: #166534;
+      border-bottom: 2px solid #86efac;
+    }
+
+    .invite-body {
+      padding: 1rem;
+    }
+
+    .invite-subject {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .invite-row {
+      display: flex;
+      font-size: 0.9rem;
+      padding: 0.25rem 0;
+      gap: 0.5rem;
+    }
+
+    .invite-label {
+      color: #888;
+      min-width: 5.5rem;
+      flex-shrink: 0;
+    }
+
+    .invite-value {
+      color: #333;
+    }
+
+    .invite-value.empty {
+      color: #ccc;
+      font-style: italic;
+    }
+
+    .invite-agenda {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #eee;
+    }
+
+    .invite-agenda-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+
+    .invite-agenda ol {
+      padding-left: 1.25rem;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    .invite-agenda li {
+      padding: 0.15rem 0;
+    }
+
+    .invite-readahead {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .invite-readahead a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .reaction {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 0.75rem 0 0;
+      padding: 0.75rem 1rem;
+      border-top: 1px solid #eee;
+      font-style: italic;
+    }
+
+    /* Stat callout */
+    .stat {
+      background: #f0f4ff;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+    }
+
+    .stat strong {
+      color: #1e40af;
+    }
+
+    /* Key point */
+    .key-point {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin: 1.5rem 0 1rem;
+      line-height: 1.4;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      margin: 1rem 0;
+      padding: 0;
+    }
+
+    .checklist li {
+      padding: 0.4rem 0 0.4rem 1.75rem;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .checklist li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #3b82f6;
+      font-weight: 700;
+    }
+
+    /* Divider */
+    hr {
+      border: none;
+      border-top: 1px solid #e5e5e5;
+      margin: 2.5rem 0;
+    }
+
+    /* Footer / book promo */
+    .promo {
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 1rem;
+      color: #666;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .promo a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .promo a:hover {
+      text-decoration: underline;
+    }
+
+    .promo .book-title {
+      font-style: italic;
+    }
+
+    .share-prompt {
+      background: #f8f8f8;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      color: #555;
+      text-align: center;
+    }
+
+    .share-prompt code {
+      display: inline-block;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+      font-size: 0.85rem;
+      color: #2563eb;
+      user-select: all;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 2rem 1rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .hook {
+        font-size: 1.1rem;
+      }
+
+      .invite-row {
+        flex-direction: column;
+        gap: 0.1rem;
+      }
+
+      .invite-label {
+        min-width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>No Agenda, No Meeting.</h1>
+    <p class="subtitle">Please don't send meeting invites without an agenda.</p>
+
+    <p class="hook">Imagine getting a calendar invite that just says <em>"Quick sync"</em> with zero context&hellip; and having no idea what it's about. 🤦</p>
+
+    <h2><span class="icon">❌</span> Don't do this</h2>
+
+    <div class="invite invite-bad">
+      <div class="invite-header">📅 Calendar Invite</div>
+      <div class="invite-body">
+        <div class="invite-subject">Quick sync</div>
+        <div class="invite-row">
+          <span class="invite-label">When</span>
+          <span class="invite-value">Tuesday, 2:00 – 2:30 PM</span>
+        </div>
+        <div class="invite-row">
+          <span class="invite-label">Agenda</span>
+          <span class="invite-value empty">(none)</span>
+        </div>
+        <div class="invite-row">
+          <span class="invite-label">Context</span>
+          <span class="invite-value empty">(none)</span>
+        </div>
+        <div class="invite-row">
+          <span class="invite-label">Goals</span>
+          <span class="invite-value empty">(none)</span>
+        </div>
+      </div>
+      <p class="reaction">Am I in trouble? Do I need to prepare? What is this even about? 😰</p>
+    </div>
+
+    <p>You've just forced everyone on the invite to context-switch <em>twice</em>&mdash;once to figure out what this is about, and again in the meeting when they arrive unprepared. A meeting without an agenda is like calling a function without documentation&mdash;you don't know what inputs to prepare or what outputs to expect.</p>
+
+    <h2><span class="icon">✅</span> Try this instead</h2>
+
+    <div class="invite invite-good">
+      <div class="invite-header">📅 Calendar Invite</div>
+      <div class="invite-body">
+        <div class="invite-subject">Q3 launch: go/no-go decision</div>
+        <div class="invite-row">
+          <span class="invite-label">When</span>
+          <span class="invite-value">Tuesday, 2:00 – 2:30 PM</span>
+        </div>
+        <div class="invite-agenda">
+          <div class="invite-agenda-label">Agenda</div>
+          <ol>
+            <li>Current status of API migration (5 min)</li>
+            <li>Open questions on the deployment window (10 min)</li>
+            <li>Decision: go/no-go for the beta release (15 min)</li>
+          </ol>
+        </div>
+        <div class="invite-readahead">📎 Read-ahead: <a href="#">Q3 launch status doc</a></div>
+      </div>
+      <p class="reaction">Everyone arrives prepared. The meeting is focused. Better decisions get made. ✨</p>
+    </div>
+
+    <p>Notice how the second invite respects everyone's time? Attendees can prepare, the meeting stays on track, and you might even finish early.</p>
+
+    <hr>
+
+    <h2>Why this matters</h2>
+
+    <div class="stat">
+      The average knowledge worker spends <strong>40% of their workweek in meetings</strong>&mdash;that's two full days before they even start the "real work."
+    </div>
+
+    <p>Every agenda-less meeting carries hidden costs:</p>
+
+    <ul class="checklist">
+      <li>People show up unprepared, so the first 10 minutes is spent catching everyone up&mdash;information that could have been shared as a document.</li>
+      <li>Without clear goals, meetings drift. You end 30 minutes later with no decisions and a vague promise to "circle back."</li>
+      <li>Context-switching to and from a mystery meeting destroys the deep focus work that creates actual value.</li>
+      <li>If the organizer hasn't distilled their thoughts into writing, why should they get to decide how <em>you</em> spend your time?</li>
+    </ul>
+
+    <hr>
+
+    <h2>What to do instead</h2>
+
+    <p class="key-point">Before you schedule a meeting, ask: "Can this start as a document instead?"</p>
+
+    <p>You'd be surprised how often it can. A few minutes of writing often replaces waiting days for mutual availability and a 30-minute meeting. If you've done the writing and still need to meet, you've just created the agenda.</p>
+
+    <ul class="checklist">
+      <li><strong>No agenda? Decline politely</strong>&mdash;or at least ask for one. It's well within your rights.</li>
+      <li><strong>Write first, meet second.</strong> Transfer context asynchronously and schedule a meeting only if the conversation requires it.</li>
+      <li><strong>Include clear goals.</strong> What decision needs to be made? What question needs to be answered? If you can't articulate it, you don't need a meeting.</li>
+      <li><strong>Attach a read-ahead.</strong> Let people prepare on their own time instead of draining the first 15 minutes on information transfer.</li>
+    </ul>
+
+    <p>Writing scales; meetings don't. A well-written document can reach hundreds of people at their convenience without interrupting anyone's flow. A meeting reaches only the people in the room, only at that exact moment.</p>
+
+    <hr>
+
+    <div class="share-prompt">
+      Got an invite without an agenda? Share this page:<br>
+      <code>noagendanomeeting.net</code>
+    </div>
+
+    <div class="promo">
+      Adapted from <a class="book-title" href="https://openandasync.com">Open and Async</a> by Ben Balter&mdash;a playbook for remote and distributed software teams that actually work.
+    </div>
+  </main>
+</body>
+</html>
