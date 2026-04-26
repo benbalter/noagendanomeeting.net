@@ -7,7 +7,7 @@ export default defineConfig({
   output: "static",
   build: {
     format: "file",
-    inlineStylesheets: "always",
+    inlineStylesheets: "never",
   },
   integrations: [sitemap()],
   prefetch: true,
