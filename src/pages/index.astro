@@ -291,4 +291,38 @@ import "../styles.css";
       initClipboard();
     }
   </script>
+
+  <!-- FAQPage Structured Data -->
+  <script is:inline type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why do meetings need an agenda?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A meeting without an agenda forces everyone to context-switch twice — once to figure out what it's about, and again when they arrive unprepared. The average knowledge worker spends 40% of their workweek in meetings. An agenda ensures attendees can prepare, the meeting stays on track, and better decisions get made."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What should I do if I receive a meeting invite without an agenda?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Decline politely or ask for an agenda. It's well within your rights. Before scheduling a meeting, ask: 'Can this start as a document instead?' A few minutes of writing often replaces waiting days for mutual availability and a 30-minute meeting."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What makes a good meeting agenda?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A good meeting agenda includes a clear subject, specific discussion items with time allocations, defined goals or decisions to be made, and a read-ahead document so attendees can prepare in advance. Write first, meet second — transfer context asynchronously and schedule a meeting only if the conversation requires it."
+          }
+        }
+      ]
+    }
+  </script>
 </BaseLayout>
