@@ -1,23 +1,15 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.astro",
     "tests/**/*.ts",
-    "vite.config.ts",
-    "vitest.config.ts",
-    "tailwind.config.ts"
+    "astro.config.mjs",
+    "vitest.config.ts"
   ]
 }

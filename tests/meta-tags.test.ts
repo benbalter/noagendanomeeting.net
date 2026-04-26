@@ -87,7 +87,7 @@ describe("SEO Meta Tags Consistency", () => {
   it("should have a canonical URL pointing to the production site", () => {
     const link = document.querySelector('link[rel="canonical"]');
     expect(link).not.toBeNull();
-    expect(link?.getAttribute("href")).toBe("https://noagendanomeeting.net");
+    expect(link?.getAttribute("href")).toBe("https://noagendanomeeting.net/");
   });
 
   it("should have theme-color meta tags for light and dark modes", () => {

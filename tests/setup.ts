@@ -7,13 +7,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export function loadDocument(): Document {
-  const html = readFileSync(resolve(__dirname, "../index.html"), "utf-8");
+  const html = readFileSync(resolve(__dirname, "../dist/index.html"), "utf-8");
   const dom = new JSDOM(html);
   return dom.window.document;
 }
 
 export function loadRawHTML(): string {
-  return readFileSync(resolve(__dirname, "../index.html"), "utf-8");
+  return readFileSync(resolve(__dirname, "../dist/index.html"), "utf-8");
 }
 
 export function loadFile(relativePath: string): string {

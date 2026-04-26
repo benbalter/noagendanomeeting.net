@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 @font-face {
   font-family: "DM Serif Display";
   font-style: normal;
@@ -6,9 +8,9 @@
   src: url("/fonts/dm-serif-display-400.woff2") format("woff2");
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --font-serif-display: "DM Serif Display", serif;
+}
 
 @media print {
   .book-promo {
