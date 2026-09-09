@@ -30,14 +30,14 @@
     "@astrojs/check": "^0.9.8",
     "@types/jsdom": "^28.0.1",
     "@types/node": "^25.5.2",
-    "@vitest/coverage-v8": "^4.1.2",
+    "@vitest/coverage-v8": "^4.1.11",
     "jsdom": "^29.0.1",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.1.18",
     "typescript": "^6.0.2",
-    "vitest": "^4.1.2",
+    "vitest": "^4.1.11",
     "wrangler": "^4.80.0"
   },
   "dependencies": {
