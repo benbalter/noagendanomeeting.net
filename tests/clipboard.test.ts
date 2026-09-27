@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { createCopyHandler, initClipboard } from "../src/clipboard";
+import { createCopyHandler, initClipboard, RESET_DELAY_MS } from "../src/clipboard";
 
 describe("createCopyHandler", () => {
   let button: HTMLButtonElement;
@@ -37,7 +37,7 @@ describe("createCopyHandler", () => {
     await handler();
     expect(button.textContent).toBe("Copied!");
 
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(RESET_DELAY_MS);
     expect(button.innerHTML).toContain("noagendanomeeting.net");
     expect(button.innerHTML).toContain("📋");
     vi.useRealTimers();
@@ -55,6 +55,63 @@ describe("createCopyHandler", () => {
 
     expect(document.execCommand).toHaveBeenCalledWith("copy");
     expect(button.textContent).toBe("Copied!");
+  });
+
+  it("should report failure when both copy methods fail", async () => {
+    Object.assign(navigator, {
+      clipboard: { writeText: vi.fn().mockRejectedValue(new Error("Not allowed")) },
+    });
+    document.execCommand = vi.fn().mockReturnValue(false);
+    const status = document.createElement("span");
+
+    const handler = createCopyHandler(button, "https://noagendanomeeting.net", status);
+    await handler();
+
+    expect(button.textContent).toBe("Copy failed");
+    expect(status.textContent).toContain("https://noagendanomeeting.net");
+  });
+
+  it("should treat a throwing execCommand as a failure", async () => {
+    Object.assign(navigator, {
+      clipboard: { writeText: vi.fn().mockRejectedValue(new Error("Not allowed")) },
+    });
+    document.execCommand = vi.fn().mockImplementation(() => {
+      throw new Error("unsupported");
+    });
+
+    const handler = createCopyHandler(button, "https://noagendanomeeting.net");
+    await handler();
+
+    expect(button.textContent).toBe("Copy failed");
+    expect(document.querySelector("textarea")).toBeNull();
+  });
+
+  it("should announce success in the status region and clear it on reset", async () => {
+    vi.useFakeTimers();
+    const status = document.createElement("span");
+    const handler = createCopyHandler(button, "https://noagendanomeeting.net", status);
+
+    await handler();
+    expect(status.textContent).toBe("Link copied to clipboard.");
+
+    vi.advanceTimersByTime(RESET_DELAY_MS);
+    expect(status.textContent).toBe("");
+    vi.useRealTimers();
+  });
+
+  it("should restart the reset timer on repeat clicks", async () => {
+    vi.useFakeTimers();
+    const handler = createCopyHandler(button, "https://noagendanomeeting.net");
+
+    await handler();
+    vi.advanceTimersByTime(RESET_DELAY_MS - 500);
+    await handler();
+    vi.advanceTimersByTime(1000);
+    expect(button.textContent).toBe("Copied!");
+
+    vi.advanceTimersByTime(RESET_DELAY_MS);
+    expect(button.innerHTML).toContain("📋");
+    vi.useRealTimers();
   });
 
   it("should handle multiple rapid clicks gracefully", async () => {
@@ -100,6 +157,21 @@ describe("initClipboard", () => {
 
   it("should do nothing if no [data-copy-url] elements exist", () => {
     expect(() => initClipboard()).not.toThrow();
+  });
+
+  it("should wire buttons to the [data-copy-status] live region", async () => {
+    Object.assign(navigator, {
+      clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+    });
+    const button = document.createElement("button");
+    button.setAttribute("data-copy-url", "https://example.com");
+    const status = document.createElement("span");
+    status.setAttribute("data-copy-status", "");
+    document.body.append(button, status);
+
+    initClipboard();
+    button.click();
+    await vi.waitFor(() => expect(status.textContent).toBe("Link copied to clipboard."));
   });
 
   it("should use the data-copy-url attribute value as the URL", () => {

@@ -57,10 +57,8 @@ describe("HTML Document Structure", () => {
     expect(link).not.toBeNull();
   });
 
-  it("should include styles (inline or linked)", () => {
-    const linked = document.querySelector('link[rel="stylesheet"]');
-    const inlined = document.querySelector("style");
-    expect(linked !== null || inlined !== null).toBe(true);
+  it("should link an external stylesheet", () => {
+    expect(document.querySelector('link[rel="stylesheet"]')).not.toBeNull();
   });
 
   it("should include a module script", () => {

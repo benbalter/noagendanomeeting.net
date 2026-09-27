@@ -1,0 +1,43 @@
+{
+  "_comment": "robots-txt is off and the SEO category floor is 0.9 (not 1) because Lighthouse flags the intentional Content-Signal directive (contentsignals.org) as unknown and scores robots.txt 0. Every other SEO audit passes; re-tighten once Lighthouse recognizes Content-Signal.",
+  "ci": {
+    "collect": {
+      "staticDistDir": "./dist",
+      "url": ["http://localhost/index.html"],
+      "numberOfRuns": 3
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": [
+          "error",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
+        "categories:best-practices": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
+        "categories:seo": [
+          "error",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "robots-txt": "off"
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci/reports"
+    }
+  }
+}

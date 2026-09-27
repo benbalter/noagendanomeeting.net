@@ -4,6 +4,9 @@
   "private": true,
   "description": "No agenda, no meeting. A static site reminding people to include agendas in meeting invites.",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -14,9 +17,12 @@
     "format": "prettier --write '**/*.{ts,js,mjs,json,html,css,md,astro}'",
     "format:check": "prettier --check '**/*.{ts,js,mjs,json,html,css,md,astro}'",
     "typecheck": "astro check && tsc --noEmit",
-    "validate": "npm run typecheck && npm run format:check && npm run test",
+    "validate": "npm run typecheck && npm run format:check && npm run test:coverage && npm run lint:html",
     "ci": "npm run validate",
-    "clean": "rm -rf dist coverage node_modules/.vite .astro"
+    "clean": "rm -rf dist coverage node_modules/.vite .astro .lighthouseci",
+    "deploy": "wrangler deploy",
+    "lint:html": "html-validate \"dist/**/*.html\"",
+    "lighthouse": "npx --yes @lhci/cli@0.15 autorun"
   },
   "keywords": [
     "meetings",
@@ -25,24 +31,24 @@
     "async-work"
   ],
   "author": "Ben Balter",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
-    "@astrojs/check": "^0.9.8",
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/sitemap": "3.7.4",
+    "@tailwindcss/vite": "^4.1.18",
     "@types/jsdom": "^28.0.1",
     "@types/node": "^25.5.2",
     "@vitest/coverage-v8": "^4.1.2",
+    "astro": "7.3.5",
+    "html-validate": "11.16.0",
     "jsdom": "^29.0.1",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "schema-dts": "2.0.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^6.0.2",
     "vitest": "^4.1.2",
     "wrangler": "^4.80.0"
-  },
-  "dependencies": {
-    "@astrojs/sitemap": "^3.7.2",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^6.1.9"
   }
 }

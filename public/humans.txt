@@ -1,0 +1,16 @@
+/* TEAM */
+
+Author: Ben Balter
+Site: https://ben.balter.com
+GitHub: https://github.com/benbalter
+
+/* SITE */
+
+Language: English
+Standards: HTML5, CSS3
+Components: Astro, Tailwind CSS, Cloudflare Workers
+Fonts: DM Serif Display
+
+/* THANKS */
+
+Inspired by nohello.net (https://nohello.net)

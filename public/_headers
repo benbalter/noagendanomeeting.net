@@ -1,13 +1,51 @@
+# Security and caching headers for all routes.
+# The rest of the CSP is a per-page <meta> tag with script/style hashes
+# (security.csp in astro.config.mjs). Only frame-ancestors lives here, since
+# <meta> can't set it. Don't add script-src or default-src here: browsers
+# enforce both policies, and a header without the hashes would block Astro's
+# inline scripts.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
-  Cache-Control: public, max-age=3600
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), browsing-topics=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Content-Security-Policy: frame-ancestors 'none'
+  Cache-Control: public, max-age=120, stale-while-revalidate=86400
+  Link: </sitemap-index.xml>; rel="sitemap"; type="application/xml"
+  Link: </llms.txt>; rel="describedby"; type="text/plain"
 
-/index.html
-  Cache-Control: public, max-age=600
+# Each rule below detaches the `/*` Cache-Control first. Overlapping rules are
+# comma-joined, and caches honor the first max-age they see.
+
+# Hashed build output
+/_astro/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
 
 /fonts/*
+  ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable
+
+/icons/*
+  ! Cache-Control
+  Cache-Control: public, max-age=2592000
+
+/favicon.*
+  ! Cache-Control
+  Cache-Control: public, max-age=2592000
+
+/manifest.webmanifest
+  ! Cache-Control
+  Cache-Control: public, max-age=2592000
+
+# Social cards are embedded cross-origin by scrapers and previews, so override
+# the site-wide CORP.
+/og-image.png
+  ! Cache-Control
+  ! Cross-Origin-Resource-Policy
+  Cache-Control: public, max-age=604800
+  Cross-Origin-Resource-Policy: cross-origin
+  Access-Control-Allow-Origin: *

@@ -1,0 +1,36 @@
+---
+interface Props {
+  variant: "bad" | "good";
+  subject: string;
+  reaction: string;
+}
+
+const { variant, subject, reaction } = Astro.props;
+
+const headerClass = {
+  bad: "border-red-300 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-300",
+  good: "border-green-300 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-300",
+}[variant];
+---
+
+<div
+  class="mt-4 mb-6 overflow-hidden rounded-xl border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800"
+>
+  <div
+    class:list={[
+      "flex items-center gap-2 border-b-2 px-4 py-3 text-xs font-semibold tracking-wider uppercase",
+      headerClass,
+    ]}
+  >
+    <span aria-hidden="true">📅</span> Calendar Invite
+  </div>
+  <div class="p-4">
+    <div class="mb-3 text-lg font-bold">{subject}</div>
+    <slot />
+  </div>
+  <p
+    class="border-t border-gray-100 px-4 py-3 text-[0.95rem] text-gray-600 italic dark:border-gray-700 dark:text-gray-400"
+  >
+    {reaction}
+  </p>
+</div>

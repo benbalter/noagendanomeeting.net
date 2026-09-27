@@ -18,6 +18,13 @@ describe("Page Content", () => {
     expect(text).toContain("don't send meeting invites without an agenda");
   });
 
+  it("should keep spaces between inline elements", () => {
+    const text = (document.body.textContent ?? "").replace(/\s+/g, " ");
+    expect(text).toContain('says "Quick sync" with');
+    expect(text).toContain("spends 40% of their workweek");
+    expect(text).toContain("Inspired by nohello.net");
+  });
+
   it("should have a Don't do this section", () => {
     const headings = Array.from(document.querySelectorAll("h2"));
     const found = headings.some((h) => h.textContent?.includes("Don't do this"));
@@ -54,13 +61,26 @@ describe("Page Content", () => {
   });
 
   it("should link to the Open & Async book", () => {
-    const link = document.querySelector('a[href="https://openandasync.com"]');
+    const link = document.querySelector('a[href^="https://open-and-async.com/"]');
     expect(link).not.toBeNull();
     expect(link?.textContent).toContain("Open & Async");
   });
 
+  it("should tag book links with a utm_source", () => {
+    const links = document.querySelectorAll('a[href^="https://open-and-async.com/"]');
+    links.forEach((a) => {
+      expect(new URL(a.getAttribute("href") ?? "").searchParams.get("utm_source")).toBe(
+        "noagendanomeeting",
+      );
+    });
+  });
+
+  it("should not link to the old openandasync.com domain", () => {
+    expect(document.querySelector('[href*="openandasync.com"]')).toBeNull();
+  });
+
   it("should have a Get the book call-to-action", () => {
-    const links = Array.from(document.querySelectorAll('a[href="https://openandasync.com"]'));
+    const links = Array.from(document.querySelectorAll('a[href^="https://open-and-async.com/"]'));
     const cta = links.find((a) => a.textContent?.includes("Get the book"));
     expect(cta).toBeDefined();
   });

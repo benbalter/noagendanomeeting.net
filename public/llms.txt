@@ -1,0 +1,16 @@
+# No Agenda, No Meeting
+
+> A single-page explainer asking people not to send meeting invites without an agenda. Share the link with an organizer when you get an invite with no context, goals, or read-ahead.
+
+## Key points
+
+- An invite without an agenda forces every attendee to context-switch twice: once to work out what the meeting is about, and again when they arrive unprepared.
+- A good invite states the decision or question, lists agenda items with time allocations, and attaches a read-ahead document.
+- Before scheduling, ask "Can this start as a document instead?" Write first, meet second.
+- If an invite has no agenda, it's reasonable to ask for one or decline politely.
+
+## Links
+
+- [No Agenda, No Meeting](https://noagendanomeeting.net/): the full page
+- [Open & Async](https://open-and-async.com/): the book by Ben Balter this page is adapted from
+- [Ben Balter](https://ben.balter.com): author

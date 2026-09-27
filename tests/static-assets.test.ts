@@ -1,58 +1,73 @@
 import { describe, it, expect, beforeAll } from "vitest";
-import { loadFile } from "./setup";
+import { loadDist } from "./setup";
+
+function rulesFor(headers: string, path: string): string[] {
+  const lines = headers.split("\n");
+  const start = lines.findIndex((l) => l.trim() === path);
+  if (start === -1) return [];
+  const rules: string[] = [];
+  for (const line of lines.slice(start + 1)) {
+    if (!/^\s+\S/.test(line)) break;
+    if (!line.trim().startsWith("#")) rules.push(line.trim());
+  }
+  return rules;
+}
 
 describe("_headers file", () => {
   let headers: string;
 
   beforeAll(() => {
-    headers = loadFile("public/_headers");
+    headers = loadDist("_headers");
   });
 
-  it("should not be empty", () => {
-    expect(headers.trim().length).toBeGreaterThan(0);
-  });
-
-  it("should set X-Content-Type-Options to nosniff", () => {
-    expect(headers).toContain("X-Content-Type-Options: nosniff");
-  });
-
-  it("should set X-Frame-Options to DENY", () => {
-    expect(headers).toContain("X-Frame-Options: DENY");
-  });
-
-  it("should set Referrer-Policy to strict-origin-when-cross-origin", () => {
-    expect(headers).toContain("Referrer-Policy: strict-origin-when-cross-origin");
-  });
-
-  it("should set a Permissions-Policy", () => {
-    expect(headers).toContain("Permissions-Policy:");
-  });
-
-  it("should set a Content-Security-Policy", () => {
-    expect(headers).toContain("Content-Security-Policy:");
-    expect(headers).toContain("default-src 'none'");
-    expect(headers).toContain("script-src 'self'");
+  it("should apply security headers to all routes", () => {
+    const all = rulesFor(headers, "/*");
+    expect(all).toContain("X-Content-Type-Options: nosniff");
+    expect(all).toContain("X-Frame-Options: DENY");
+    expect(all).toContain("Referrer-Policy: strict-origin-when-cross-origin");
+    expect(all).toContain("Content-Security-Policy: frame-ancestors 'none'");
+    expect(all.some((r) => r.startsWith("Strict-Transport-Security: max-age="))).toBe(true);
+    expect(all.some((r) => r.startsWith("Permissions-Policy:"))).toBe(true);
   });
 
   it("should deny camera, microphone, and geolocation", () => {
-    expect(headers).toContain("camera=()");
-    expect(headers).toContain("microphone=()");
-    expect(headers).toContain("geolocation=()");
+    const policy = rulesFor(headers, "/*").find((r) => r.startsWith("Permissions-Policy:"));
+    expect(policy).toContain("camera=()");
+    expect(policy).toContain("microphone=()");
+    expect(policy).toContain("geolocation=()");
   });
 
-  it("should set Cache-Control for all routes", () => {
-    expect(headers).toContain("/*");
-    expect(headers).toContain("Cache-Control:");
+  it("should not put script-src or default-src in the header CSP", () => {
+    // The hash-based policy lives in each page's <meta>; a header policy
+    // without the hashes would block Astro's inline scripts.
+    const csp = rulesFor(headers, "/*").find((r) => r.startsWith("Content-Security-Policy:"));
+    expect(csp).not.toContain("script-src");
+    expect(csp).not.toContain("default-src");
   });
 
-  it("should have a specific cache rule for index.html", () => {
-    expect(headers).toContain("/index.html");
+  it("should cache hashed build assets immutably", () => {
+    const rules = rulesFor(headers, "/_astro/*");
+    expect(rules).toContain("! Cache-Control");
+    expect(rules).toContain("Cache-Control: public, max-age=31536000, immutable");
   });
 
-  it("should apply to all routes with the wildcard pattern", () => {
-    const lines = headers.split("\n");
-    const firstRoute = lines.find((l) => l.trim().startsWith("/"));
-    expect(firstRoute?.trim()).toBe("/*");
+  it("should detach the default Cache-Control in every more specific rule", () => {
+    const paths = headers
+      .split("\n")
+      .filter((l) => /^\/\S/.test(l) && l.trim() !== "/*")
+      .map((l) => l.trim());
+    for (const path of paths) {
+      const rules = rulesFor(headers, path);
+      if (rules.some((r) => r.startsWith("Cache-Control:"))) {
+        expect(rules, path).toContain("! Cache-Control");
+      }
+    }
+  });
+
+  it("should allow the OG image to be embedded cross-origin", () => {
+    expect(rulesFor(headers, "/og-image.png")).toContain(
+      "Cross-Origin-Resource-Policy: cross-origin",
+    );
   });
 });
 
@@ -60,31 +75,21 @@ describe("_redirects file", () => {
   let redirects: string;
 
   beforeAll(() => {
-    redirects = loadFile("public/_redirects");
+    redirects = loadDist("_redirects");
   });
 
-  it("should not be empty", () => {
-    expect(redirects.trim().length).toBeGreaterThan(0);
-  });
-
-  it("should redirect /noagenda to the main site", () => {
-    expect(redirects).toContain("/noagenda");
-    expect(redirects).toContain("https://noagendanomeeting.net");
-  });
-
-  it("should use a 301 permanent redirect", () => {
-    expect(redirects).toContain("301");
+  it("should redirect /noagenda to the homepage", () => {
+    expect(redirects.trim()).toBe("/noagenda / 301");
   });
 
   it("should have valid redirect format (source destination status)", () => {
     const lines = redirects.split("\n").filter((l) => l.trim().length > 0);
     lines.forEach((line) => {
-      const parts = line.trim().split(/\s+/);
-      expect(parts.length).toBe(3);
-      expect(parts[0]).toMatch(/^\//);
-      expect(parts[1]).toMatch(/^https?:\/\//);
-      expect(parseInt(parts[2])).toBeGreaterThanOrEqual(300);
-      expect(parseInt(parts[2])).toBeLessThan(400);
+      const [source, destination, status] = line.trim().split(/\s+/);
+      expect(source).toMatch(/^\//);
+      expect(destination).toMatch(/^(\/|https:\/\/)/);
+      expect(parseInt(status)).toBeGreaterThanOrEqual(300);
+      expect(parseInt(status)).toBeLessThan(400);
     });
   });
 });

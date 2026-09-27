@@ -51,9 +51,8 @@ describe("Calendar Invite Examples", () => {
   });
 
   it("should have reaction text for both invite examples", () => {
-    const italicParagraphs = Array.from(document.querySelectorAll("p")).filter((p) =>
-      p.className.includes("italic"),
-    );
-    expect(italicParagraphs.length).toBeGreaterThanOrEqual(2);
+    const text = document.querySelector("main")?.textContent ?? "";
+    expect(text).toContain("Am I in trouble?");
+    expect(text).toContain("Everyone arrives prepared.");
   });
 });

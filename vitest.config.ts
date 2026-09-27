@@ -8,6 +8,8 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json", "html", "lcov"],
       include: ["src/**/*.ts"],
+      // Endpoints are exercised through the built dist/ output instead.
+      exclude: ["src/pages/**"],
       thresholds: {
         statements: 90,
         branches: 80,

@@ -10,22 +10,40 @@
 
 @theme {
   --font-serif-display: "DM Serif Display", serif;
+  --color-ink: #1a1a2e;
+  --color-accent: #3b82f6;
+}
+
+@layer components {
+  .arrow-list {
+    @apply my-4 list-none p-0;
+  }
+
+  .arrow-list > li {
+    @apply relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500;
+  }
+
+  /* Empty alt text keeps screen readers from announcing the decorative arrow. */
+  .arrow-list > li::before {
+    content: "→";
+    content: "→" / "";
+  }
 }
 
 @media print {
   .book-promo {
     background: #fff !important;
-    color: #1a1a2e !important;
+    color: var(--color-ink) !important;
     border: 1px solid #e5e7eb;
   }
   .book-promo a {
-    color: #1a1a2e !important;
+    color: var(--color-ink) !important;
   }
-  .book-promo .text-slate-300 {
+  .book-promo .book-promo-muted {
     color: #6b7280 !important;
   }
-  .book-promo .bg-\[\#3b82f6\] {
-    background: #3b82f6 !important;
+  .book-promo .book-promo-cta {
+    background: #2563eb !important;
     color: #fff !important;
   }
 }

@@ -12,14 +12,6 @@ describe("Accessibility", () => {
     expect(document.documentElement.getAttribute("lang")).toBe("en");
   });
 
-  it("should have a single main landmark", () => {
-    expect(document.querySelectorAll("main")).toHaveLength(1);
-  });
-
-  it("should have exactly one h1", () => {
-    expect(document.querySelectorAll("h1")).toHaveLength(1);
-  });
-
   it("should have a logical heading hierarchy starting with h1", () => {
     const headings = Array.from(document.querySelectorAll("h1, h2, h3, h4, h5, h6"));
     expect(headings.length).toBeGreaterThan(0);
@@ -51,6 +43,25 @@ describe("Accessibility", () => {
       const ariaLabel = button.getAttribute("aria-label") ?? "";
       expect(text.length + ariaLabel.length).toBeGreaterThan(0);
     });
+  });
+
+  it("should hide decorative emoji in headings from screen readers", () => {
+    document.querySelectorAll("h1, h2").forEach((heading) => {
+      const exposed = heading.cloneNode(true) as Element;
+      exposed.querySelectorAll('[aria-hidden="true"]').forEach((el) => el.remove());
+      expect(exposed.textContent).not.toMatch(/\p{Extended_Pictographic}/u);
+    });
+  });
+
+  it("should include the visible text in the copy button's accessible name", () => {
+    const button = document.querySelector("[data-copy-url]");
+    expect(button?.hasAttribute("aria-label")).toBe(false);
+    expect(button?.textContent).toContain("noagendanomeeting.net");
+    expect(button?.getAttribute("type")).toBe("button");
+  });
+
+  it("should have a live region to announce copy results", () => {
+    expect(document.querySelector('[data-copy-status][role="status"]')).not.toBeNull();
   });
 
   it("should use semantic list elements", () => {

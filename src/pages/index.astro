@@ -1,15 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import "../styles.css";
+import Invite from "../components/Invite.astro";
+import InviteField from "../components/InviteField.astro";
+import { BOOK_LINK } from "../consts";
+import { homeGraph } from "../jsonld";
 ---
 
-<BaseLayout>
+<BaseLayout structuredData={homeGraph}>
   <main id="content" class="mx-auto max-w-[640px] px-4 pt-8 pb-6 sm:px-6 sm:pt-12 sm:pb-8">
     <article>
       <h1 class="font-serif-display mb-3 text-3xl leading-[1.1] tracking-tight sm:text-[2.5rem]">
-        No Agenda<span class="text-[#3b82f6]">,</span> No Meeting<span class="text-[#3b82f6]"
-          >.</span
-        >
+        No Agenda<span class="text-accent">,</span> No Meeting<span class="text-accent">.</span>
       </h1>
       <p class="mb-10 text-lg text-gray-500 dark:text-gray-400">
         Please don't send meeting invites without an agenda.
@@ -30,45 +31,19 @@ import "../styles.css";
           id="dont-do-this"
           class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
         >
-          <span class="text-[1.3rem]">❌</span> Don't do this
+          <span aria-hidden="true" class="text-[1.3rem]">❌</span> Don't do this
         </h2>
 
-        <div
-          class="mt-4 mb-6 overflow-hidden rounded-xl border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        <Invite
+          variant="bad"
+          subject="Quick sync"
+          reaction="Am I in trouble? Do I need to prepare? What is this even about? 😰"
         >
-          <div
-            class="flex items-center gap-2 border-b-2 border-red-300 bg-red-50 px-4 py-3 text-xs font-semibold tracking-wider text-red-800 uppercase dark:border-red-800 dark:bg-red-950 dark:text-red-300"
-          >
-            📅 Calendar Invite
-          </div>
-          <div class="p-4">
-            <div class="mb-3 text-lg font-bold">Quick sync</div>
-            <div class="flex flex-col gap-0.5 py-1 text-sm sm:flex-row sm:gap-2">
-              <span class="shrink-0 text-gray-400 sm:min-w-[5.5rem] dark:text-gray-500">When</span>
-              <span class="text-gray-700 dark:text-gray-300">Tuesday, 2:00 – 2:30 PM</span>
-            </div>
-            <div class="flex flex-col gap-0.5 py-1 text-sm sm:flex-row sm:gap-2">
-              <span class="shrink-0 text-gray-400 sm:min-w-[5.5rem] dark:text-gray-500">Agenda</span
-              >
-              <span class="text-gray-300 italic dark:text-gray-600">(none)</span>
-            </div>
-            <div class="flex flex-col gap-0.5 py-1 text-sm sm:flex-row sm:gap-2">
-              <span class="shrink-0 text-gray-400 sm:min-w-[5.5rem] dark:text-gray-500"
-                >Context</span
-              >
-              <span class="text-gray-300 italic dark:text-gray-600">(none)</span>
-            </div>
-            <div class="flex flex-col gap-0.5 py-1 text-sm sm:flex-row sm:gap-2">
-              <span class="shrink-0 text-gray-400 sm:min-w-[5.5rem] dark:text-gray-500">Goals</span>
-              <span class="text-gray-300 italic dark:text-gray-600">(none)</span>
-            </div>
-          </div>
-          <p
-            class="!mt-0 border-t border-gray-100 px-4 py-3 text-[0.95rem] text-gray-600 italic dark:border-gray-700 dark:text-gray-400"
-          >
-            Am I in trouble? Do I need to prepare? What is this even about? 😰
-          </p>
-        </div>
+          <InviteField label="When" value="Tuesday, 2:00 – 2:30 PM" />
+          <InviteField label="Agenda" />
+          <InviteField label="Context" />
+          <InviteField label="Goals" />
+        </Invite>
 
         <p class="mb-4 leading-relaxed">
           You've just forced everyone on the invite to context-switch <em>twice</em>&mdash;once to
@@ -83,46 +58,32 @@ import "../styles.css";
           id="try-this-instead"
           class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
         >
-          <span class="text-[1.3rem]">✅</span> Try this instead
+          <span aria-hidden="true" class="text-[1.3rem]">✅</span> Try this instead
         </h2>
 
-        <div
-          class="mt-4 mb-6 overflow-hidden rounded-xl border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        <Invite
+          variant="good"
+          subject="Q3 launch: go/no-go decision"
+          reaction="Everyone arrives prepared. The meeting is focused. Better decisions get made. ✨"
         >
-          <div
-            class="flex items-center gap-2 border-b-2 border-green-300 bg-green-50 px-4 py-3 text-xs font-semibold tracking-wider text-green-800 uppercase dark:border-green-800 dark:bg-green-950 dark:text-green-300"
-          >
-            📅 Calendar Invite
+          <InviteField label="When" value="Tuesday, 2:00 – 2:30 PM" />
+          <div class="mt-3 border-t border-gray-100 pt-3 dark:border-gray-700">
+            <div
+              class="mb-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
+            >
+              Agenda
+            </div>
+            <ol class="list-decimal pl-5 text-sm text-gray-700 dark:text-gray-300">
+              <li class="py-0.5">Current status of API migration (5 min)</li>
+              <li class="py-0.5">Open questions on the deployment window (10 min)</li>
+              <li class="py-0.5">Decision: go/no-go for the beta release (15 min)</li>
+            </ol>
           </div>
-          <div class="p-4">
-            <div class="mb-3 text-lg font-bold">Q3 launch: go/no-go decision</div>
-            <div class="flex flex-col gap-0.5 py-1 text-sm sm:flex-row sm:gap-2">
-              <span class="shrink-0 text-gray-400 sm:min-w-[5.5rem] dark:text-gray-500">When</span>
-              <span class="text-gray-700 dark:text-gray-300">Tuesday, 2:00 – 2:30 PM</span>
-            </div>
-            <div class="mt-3 border-t border-gray-100 pt-3 dark:border-gray-700">
-              <div
-                class="mb-1 text-xs font-semibold tracking-wider text-gray-400 uppercase dark:text-gray-500"
-              >
-                Agenda
-              </div>
-              <ol class="list-decimal pl-5 text-sm text-gray-700 dark:text-gray-300">
-                <li class="py-0.5">Current status of API migration (5 min)</li>
-                <li class="py-0.5">Open questions on the deployment window (10 min)</li>
-                <li class="py-0.5">Decision: go/no-go for the beta release (15 min)</li>
-              </ol>
-            </div>
-            <div class="mt-2 text-sm">
-              📎 Read-ahead:
-              <span class="text-blue-600 dark:text-blue-400">Q3 launch status doc</span>
-            </div>
+          <div class="mt-2 text-sm">
+            <span aria-hidden="true">📎</span> Read-ahead:
+            <span class="text-blue-700 dark:text-blue-400">Q3 launch status doc</span>
           </div>
-          <p
-            class="!mt-0 border-t border-gray-100 px-4 py-3 text-[0.95rem] text-gray-600 italic dark:border-gray-700 dark:text-gray-400"
-          >
-            Everyone arrives prepared. The meeting is focused. Better decisions get made. ✨
-          </p>
-        </div>
+        </Invite>
 
         <p class="mb-4 leading-relaxed">
           Notice how the second invite respects everyone's time? Attendees can prepare, the meeting
@@ -150,28 +111,20 @@ import "../styles.css";
 
         <p class="mb-4 leading-relaxed">Every agenda-less meeting carries hidden costs:</p>
 
-        <ul class="my-4 list-none p-0">
-          <li
-            class="relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500 before:content-['→']"
-          >
+        <ul class="arrow-list">
+          <li>
             People show up unprepared, so the first 10 minutes is spent catching everyone
             up&mdash;information that could have been shared as a document.
           </li>
-          <li
-            class="relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500 before:content-['→']"
-          >
+          <li>
             Without clear goals, meetings drift. You end 30 minutes later with no decisions and a
             vague promise to "circle back."
           </li>
-          <li
-            class="relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500 before:content-['→']"
-          >
+          <li>
             Context-switching to and from a mystery meeting destroys the deep focus work that
             creates actual value.
           </li>
-          <li
-            class="relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500 before:content-['→']"
-          >
+          <li>
             If the organizer hasn't distilled their thoughts into writing, why should they get to
             decide how <em>you</em> spend your time?
           </li>
@@ -188,7 +141,7 @@ import "../styles.css";
           What to do instead
         </h2>
 
-        <p class="mt-6 mb-4 text-lg leading-snug font-medium text-[#1a1a2e] dark:text-gray-200">
+        <p class="text-ink mt-6 mb-4 text-lg leading-snug font-medium dark:text-gray-200">
           Before you schedule a meeting, ask: "Can this start as a document instead?"
         </p>
 
@@ -198,28 +151,20 @@ import "../styles.css";
           to meet, you've just created the agenda.
         </p>
 
-        <ul class="my-4 list-none p-0">
-          <li
-            class="relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500 before:content-['→']"
-          >
+        <ul class="arrow-list">
+          <li>
             <strong>No agenda? Decline politely</strong>&mdash;or at least ask for one. It's well
             within your rights.
           </li>
-          <li
-            class="relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500 before:content-['→']"
-          >
+          <li>
             <strong>Write first, meet second.</strong> Transfer context asynchronously and schedule a
             meeting only if the conversation requires it.
           </li>
-          <li
-            class="relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500 before:content-['→']"
-          >
+          <li>
             <strong>Include clear goals.</strong> What decision needs to be made? What question needs
             to be answered? If you can't articulate it, you don't need a meeting.
           </li>
-          <li
-            class="relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500 before:content-['→']"
-          >
+          <li>
             <strong>Attach a read-ahead.</strong> Let people prepare on their own time instead of draining
             the first 15 minutes on information transfer.
           </li>
@@ -242,42 +187,41 @@ import "../styles.css";
     >
       Got an invite without an agenda? Share this page:<br />
       <button
-        aria-label="Copy URL to clipboard"
+        type="button"
         data-copy-url="https://noagendanomeeting.net"
-        class="mt-2 inline-flex cursor-pointer items-center rounded-md border border-gray-300 bg-white px-3 py-1 font-mono text-sm text-blue-600 transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-900 dark:text-blue-400 dark:hover:border-blue-500 dark:hover:bg-blue-950"
+        class="mt-2 inline-flex cursor-pointer items-center rounded-md border border-gray-300 bg-white px-3 py-1 font-mono text-sm text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-900 dark:text-blue-400 dark:hover:border-blue-500 dark:hover:bg-blue-950"
       >
-        noagendanomeeting.net <span class="ml-1.5 text-gray-400 dark:text-gray-500">📋</span>
+        <span class="sr-only">Copy </span>noagendanomeeting.net
+        <span aria-hidden="true" class="ml-1.5 text-gray-500">📋</span>
       </button>
+      <span role="status" class="sr-only" data-copy-status></span>
     </div>
 
     <div class="book-promo mt-4 rounded-xl bg-slate-800 px-6 py-8 text-center text-white">
-      <p class="mb-2 text-sm text-slate-300 italic">Adapted from</p>
+      <p class="book-promo-muted mb-2 text-sm text-slate-300 italic">Adapted from</p>
       <p class="font-serif-display mb-1 text-2xl leading-tight">
-        <a
-          href="https://openandasync.com"
-          rel="noopener"
-          class="text-white no-underline hover:underline"
-          >Open <span class="text-[#3b82f6]">&amp;</span> Async</a
+        <a href={BOOK_LINK} rel="noopener" class="text-white no-underline hover:underline"
+          >Open <span class="text-accent">&amp;</span> Async</a
         >
       </p>
-      <p class="mt-2 text-sm text-slate-300">By Ben Balter</p>
-      <p class="mt-1 text-sm text-slate-400">
+      <p class="book-promo-muted mt-2 text-sm text-slate-300">By Ben Balter</p>
+      <p class="book-promo-muted mt-1 text-sm text-slate-300">
         A playbook for remote and distributed teams that actually work.
       </p>
       <a
-        href="https://openandasync.com"
+        href={BOOK_LINK}
         rel="noopener"
-        class="mt-5 inline-block rounded-lg bg-[#3b82f6] px-6 py-2.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-blue-500"
+        class="book-promo-cta mt-5 inline-block rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-blue-700"
         >Get the book &rarr;</a
       >
     </div>
 
-    <p class="mt-4 text-center text-xs text-gray-400">
+    <p class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
       Inspired by
       <a
         href="https://nohello.net"
         rel="noopener"
-        class="text-gray-400 underline hover:text-gray-600 dark:hover:text-gray-300">nohello.net</a
+        class="underline hover:text-gray-700 dark:hover:text-gray-300">nohello.net</a
       >
     </p>
   </footer>
@@ -285,44 +229,7 @@ import "../styles.css";
   <script>
     import { initClipboard } from "../clipboard";
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initClipboard);
-    } else {
-      initClipboard();
-    }
-  </script>
-
-  <!-- FAQPage Structured Data -->
-  <script is:inline type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Why do meetings need an agenda?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A meeting without an agenda forces everyone to context-switch twice — once to figure out what it's about, and again when they arrive unprepared. The average knowledge worker spends 40% of their workweek in meetings. An agenda ensures attendees can prepare, the meeting stays on track, and better decisions get made."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What should I do if I receive a meeting invite without an agenda?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Decline politely or ask for an agenda. It's well within your rights. Before scheduling a meeting, ask: 'Can this start as a document instead?' A few minutes of writing often replaces waiting days for mutual availability and a 30-minute meeting."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What makes a good meeting agenda?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A good meeting agenda includes a clear subject, specific discussion items with time allocations, defined goals or decisions to be made, and a read-ahead document so attendees can prepare in advance. Write first, meet second — transfer context asynchronously and schedule a meeting only if the conversation requires it."
-          }
-        }
-      ]
-    }
+    // Module scripts are deferred, so the DOM is already parsed here.
+    initClipboard();
   </script>
 </BaseLayout>
