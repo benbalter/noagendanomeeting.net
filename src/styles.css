@@ -2,8 +2,26 @@
 
 @theme {
   --font-serif-display: var(--font-dm-serif-display);
-  --color-ink: #1a1a2e;
-  --color-accent: #3b82f6;
+  /* Open & Async palette, matching open-and-async.com and ben.balter.com. */
+  --color-brand-950: #102038; /* navy: ink, dark background, book card */
+  --color-brand-900: #1b2a47; /* dark-mode cards */
+  --color-brand-600: #2e3e62; /* dark-mode borders */
+  --color-lime: #d0d820;
+  --color-pink: #f070a8;
+  --color-ink: var(--color-brand-950);
+  /* Lime and pink are too light for text on a near-white page (1.5:1 and
+     2.7:1), so light mode uses a deep pink (5.8:1); dark mode swaps in the
+     real brand colors below. accent: title punctuation. accent-alt: arrows,
+     links, and buttons. */
+  --color-accent: #be185d;
+  --color-accent-alt: #be185d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-accent: var(--color-lime); /* 10.5:1 on navy */
+    --color-accent-alt: var(--color-pink); /* 5.9:1 on navy */
+  }
 }
 
 @layer components {
@@ -12,7 +30,7 @@
   }
 
   .arrow-list > li {
-    @apply relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold before:text-blue-500;
+    @apply before:text-accent-alt relative py-1.5 pl-7 text-[0.95rem] before:absolute before:left-0 before:font-bold;
   }
 
   /* Empty alt text keeps screen readers from announcing the decorative arrow. */
@@ -22,20 +40,43 @@
   }
 }
 
+/* The book's signature lime→pink gradient, as on ben.balter.com. The solid
+   color comes first so the ampersand stays visible without background-clip. */
+.oa-amp {
+  color: var(--color-lime);
+  background: linear-gradient(to right, var(--color-lime), var(--color-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Navy label on the gradient: white on lime fails contrast. */
+.oa-cta-btn {
+  background: linear-gradient(to right, var(--color-lime), var(--color-pink));
+}
+
+.group:hover .oa-cta-btn {
+  filter: brightness(1.05);
+}
+
 @media print {
   .book-promo {
     background: #fff !important;
     color: var(--color-ink) !important;
     border: 1px solid #e5e7eb;
   }
-  .book-promo a {
-    color: var(--color-ink) !important;
+  .book-promo svg {
+    display: none;
+  }
+  .book-promo .oa-amp {
+    background: none;
+    -webkit-text-fill-color: currentColor;
   }
   .book-promo .book-promo-muted {
     color: #6b7280 !important;
   }
   .book-promo .book-promo-cta {
-    background: #2563eb !important;
+    background: var(--color-brand-950) !important;
     color: #fff !important;
   }
 }

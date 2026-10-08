@@ -68,6 +68,33 @@ describe("Page Content", () => {
     expect(button?.getAttribute("data-copy-text")).toBe(shown);
   });
 
+  it("should offer a copyable agenda template that keeps its line breaks", () => {
+    const button = document.querySelector('main [data-copy-label="Template"]');
+    const shown = button?.parentElement?.querySelector("pre")?.textContent?.trim();
+    expect(shown).toMatch(/^Goal:/);
+    expect(shown).toContain("\n1. ");
+    expect(button?.getAttribute("data-copy-text")).toBe(shown);
+  });
+
+  it("should use the native share sheet for the share button", () => {
+    expect(document.querySelector("footer [data-copy-text]")?.hasAttribute("data-share")).toBe(
+      true,
+    );
+  });
+
+  it("should use SVG icons rather than emoji in headings and invites", () => {
+    const text = Array.from(document.querySelectorAll("h2, [data-copy-text]"))
+      .map((el) => el.textContent)
+      .join("");
+    expect(text).not.toMatch(/[❌✅📅📎📋]/u);
+  });
+
+  it("should show the book cover and decorative commit graph in the book CTA", () => {
+    const cta = document.querySelector("footer a.book-promo");
+    expect(cta?.querySelector('img[alt="Open & Async book cover"]')).not.toBeNull();
+    expect(cta?.querySelector('svg[aria-hidden="true"]')).not.toBeNull();
+  });
+
   it("should not style the example read-ahead like a link", () => {
     const readAhead = Array.from(document.querySelectorAll("span")).find(
       (el) => el.textContent === "Q3 launch status doc",

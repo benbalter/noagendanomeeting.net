@@ -2,7 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Invite from "../components/Invite.astro";
 import InviteField from "../components/InviteField.astro";
-import { BOOK_LINK, DECLINE_REPLY, HOME_TITLE, SHARE_URL, SITE_HOST } from "../consts";
+import CopyCard from "../components/CopyCard.astro";
+import BookCta from "../components/BookCta.astro";
+import { CircleCheck, CircleX, Copy, Paperclip } from "@lucide/astro";
+import { AGENDA_TEMPLATE, DECLINE_REPLY, HOME_TITLE, SHARE_URL, SITE_HOST } from "../consts";
 import { homeGraph } from "../jsonld";
 ---
 
@@ -26,72 +29,80 @@ import { homeGraph } from "../jsonld";
         with zero context&hellip; and having no idea what it's about. 🤦
       </p>
 
-      <section aria-labelledby="dont-do-this">
-        <h2
-          id="dont-do-this"
-          class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
-        >
-          <span aria-hidden="true" class="text-[1.3rem]">❌</span> Don't do this
-        </h2>
+      <!-- On wide screens the two invites sit side by side, breaking out of the
+           text column, since the contrast between them is the page's argument. -->
+      <div
+        class="lg:relative lg:left-1/2 lg:grid lg:w-[60rem] lg:-translate-x-1/2 lg:grid-cols-2 lg:gap-10"
+      >
+        <section aria-labelledby="dont-do-this">
+          <h2
+            id="dont-do-this"
+            class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
+          >
+            <CircleX aria-hidden="true" size={22} class="text-red-600 dark:text-red-400" />
+            <span>Don't do this</span>
+          </h2>
 
-        <Invite
-          variant="bad"
-          subject="Quick sync"
-          reaction="Am I in trouble? Do I need to prepare? What is this even about? 😰"
-        >
-          <InviteField label="When" value="Tuesday, 2:00 – 2:30 PM" />
-          <InviteField label="Agenda" />
-          <InviteField label="Context" />
-          <InviteField label="Goals" />
-        </Invite>
+          <Invite
+            variant="bad"
+            subject="Quick sync"
+            reaction="Am I in trouble? Do I need to prepare? What is this even about? 😰"
+          >
+            <InviteField label="When" value="Tuesday, 2:00 – 2:30 PM" />
+            <InviteField label="Agenda" />
+            <InviteField label="Context" />
+            <InviteField label="Goals" />
+          </Invite>
 
-        <p class="mb-4 leading-relaxed">
-          You've just forced everyone on the invite to context-switch <em>twice</em>&mdash;once to
-          figure out what this is about, and again in the meeting when they arrive unprepared. A
-          meeting without an agenda is like calling a function without documentation&mdash;you don't
-          know what inputs to prepare or what outputs to expect.
-        </p>
-      </section>
+          <p class="mb-4 leading-relaxed">
+            You've just forced everyone on the invite to context-switch <em>twice</em>&mdash;once to
+            figure out what this is about, and again in the meeting when they arrive unprepared. A
+            meeting without an agenda is like calling a function without documentation&mdash;you
+            don't know what inputs to prepare or what outputs to expect.
+          </p>
+        </section>
 
-      <section aria-labelledby="try-this-instead">
-        <h2
-          id="try-this-instead"
-          class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
-        >
-          <span aria-hidden="true" class="text-[1.3rem]">✅</span> Try this instead
-        </h2>
+        <section aria-labelledby="try-this-instead">
+          <h2
+            id="try-this-instead"
+            class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
+          >
+            <CircleCheck aria-hidden="true" size={22} class="text-green-700 dark:text-green-400" />
+            <span>Try this instead</span>
+          </h2>
 
-        <Invite
-          variant="good"
-          subject="Q3 launch: go/no-go decision"
-          reaction="Everyone arrives prepared. The meeting is focused. Better decisions get made. ✨"
-        >
-          <InviteField label="When" value="Tuesday, 2:00 – 2:30 PM" />
-          <div class="mt-3 border-t border-gray-100 pt-3 dark:border-gray-700">
-            <div
-              class="mb-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
-            >
-              Agenda
+          <Invite
+            variant="good"
+            subject="Q3 launch: go/no-go decision"
+            reaction="Everyone arrives prepared. The meeting is focused. Better decisions get made. ✨"
+          >
+            <InviteField label="When" value="Tuesday, 2:00 – 2:30 PM" />
+            <div class="dark:border-brand-600 mt-3 border-t border-gray-100 pt-3">
+              <div
+                class="mb-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
+              >
+                Agenda
+              </div>
+              <ol class="list-decimal pl-5 text-sm text-gray-700 dark:text-gray-300">
+                <li class="py-0.5">Current status of API migration (5 min)</li>
+                <li class="py-0.5">Open questions on the deployment window (10 min)</li>
+                <li class="py-0.5">Decision: go/no-go for the beta release (15 min)</li>
+              </ol>
             </div>
-            <ol class="list-decimal pl-5 text-sm text-gray-700 dark:text-gray-300">
-              <li class="py-0.5">Current status of API migration (5 min)</li>
-              <li class="py-0.5">Open questions on the deployment window (10 min)</li>
-              <li class="py-0.5">Decision: go/no-go for the beta release (15 min)</li>
-            </ol>
-          </div>
-          <div class="mt-2 text-sm">
-            <span aria-hidden="true">📎</span> Read-ahead:
-            <span class="font-medium text-gray-700 dark:text-gray-300">Q3 launch status doc</span>
-          </div>
-        </Invite>
+            <div class="mt-2 flex items-center gap-1.5 text-sm">
+              <Paperclip aria-hidden="true" size={14} class="text-gray-500 dark:text-gray-400" /> Read-ahead:
+              <span class="font-medium text-gray-700 dark:text-gray-300">Q3 launch status doc</span>
+            </div>
+          </Invite>
 
-        <p class="mb-4 leading-relaxed">
-          Notice how the second invite respects everyone's time? Attendees can prepare, the meeting
-          stays on track, and you might even finish early.
-        </p>
-      </section>
+          <p class="mb-4 leading-relaxed">
+            Notice how the second invite respects everyone's time? Attendees can prepare, the
+            meeting stays on track, and you might even finish early.
+          </p>
+        </section>
+      </div>
 
-      <hr class="my-10 border-t border-gray-200 dark:border-gray-700" />
+      <hr class="dark:border-brand-600 my-10 border-t border-gray-200" />
 
       <section aria-labelledby="why-this-matters">
         <h2
@@ -102,11 +113,10 @@ import { homeGraph } from "../jsonld";
         </h2>
 
         <div
-          class="my-6 rounded-r-lg border-l-4 border-blue-500 bg-blue-50 px-5 py-4 text-[0.95rem] dark:bg-blue-950"
+          class="border-accent-alt dark:bg-brand-900 my-6 rounded-r-lg border-l-4 bg-pink-50 px-5 py-4 text-[0.95rem]"
         >
           Depending on whose survey you read, knowledge workers spend
-          <strong class="text-blue-800 dark:text-blue-300"
-            >one to two full days a week in meetings</strong
+          <strong class="text-ink dark:text-white">one to two full days a week in meetings</strong
           >&mdash;before they even start the "real work."
         </div>
 
@@ -132,7 +142,7 @@ import { homeGraph } from "../jsonld";
         </ul>
       </section>
 
-      <hr class="my-10 border-t border-gray-200 dark:border-gray-700" />
+      <hr class="dark:border-brand-600 my-10 border-t border-gray-200" />
 
       <section aria-labelledby="what-to-do-instead">
         <h2
@@ -171,28 +181,14 @@ import { homeGraph } from "../jsonld";
           </li>
         </ul>
 
-        <div
-          class="my-6 rounded-lg border border-gray-300 bg-white px-5 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
-        >
-          <p
-            class="mb-2 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
-          >
-            What to send back
-          </p>
-          <blockquote class="mb-3 text-[0.95rem] text-gray-700 dark:text-gray-300">
-            <p>{DECLINE_REPLY}</p>
-          </blockquote>
-          <button
-            type="button"
-            data-copy-text={DECLINE_REPLY}
-            data-copy-label="Reply"
-            class="inline-flex cursor-pointer items-center rounded-md border border-gray-300 bg-white px-3 py-1 text-sm text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-900 dark:text-blue-400 dark:hover:border-blue-500 dark:hover:bg-blue-950"
-          >
-            Copy reply
-            <span aria-hidden="true" class="ml-1.5 text-gray-500">📋</span>
-          </button>
-          <span role="status" class="sr-only" data-copy-status></span>
-        </div>
+        <CopyCard heading="What to send back" text={DECLINE_REPLY} label="Reply" />
+
+        <CopyCard
+          heading="Organizing? Copy this agenda template"
+          text={AGENDA_TEMPLATE}
+          label="Template"
+          preformatted
+        />
 
         <p class="mb-4 leading-relaxed">
           Writing scales; meetings don't. A well-written document can reach hundreds of people at
@@ -202,43 +198,27 @@ import { homeGraph } from "../jsonld";
       </section>
     </article>
 
-    <hr class="my-10 border-t border-gray-200 dark:border-gray-700" />
+    <hr class="dark:border-brand-600 my-10 border-t border-gray-200" />
   </main>
 
   <footer class="mx-auto max-w-[640px] px-4 pb-8 sm:px-6">
     <div
-      class="my-6 rounded-lg border border-dashed border-gray-300 bg-gray-50 px-5 py-4 text-center text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+      class="dark:border-brand-600 dark:bg-brand-900 my-6 rounded-lg border border-dashed border-gray-300 bg-gray-50 px-5 py-4 text-center text-sm text-gray-600 dark:text-gray-400"
     >
       Got an invite without an agenda? Share this page:<br />
       <button
         type="button"
         data-copy-text={SHARE_URL}
-        class="mt-2 inline-flex cursor-pointer items-center rounded-md border border-gray-300 bg-white px-3 py-1 font-mono text-sm text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-900 dark:text-blue-400 dark:hover:border-blue-500 dark:hover:bg-blue-950"
+        data-share
+        class="text-accent-alt hover:border-accent-alt dark:border-brand-600 dark:bg-brand-950 dark:hover:bg-brand-900 mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1 font-mono text-sm transition-colors hover:bg-pink-50"
       >
         <span class="sr-only">Copy </span>{SITE_HOST}
-        <span aria-hidden="true" class="ml-1.5 text-gray-500">📋</span>
+        <Copy aria-hidden="true" size={14} class="text-gray-500 dark:text-gray-400" />
       </button>
       <span role="status" class="sr-only" data-copy-status></span>
     </div>
 
-    <div class="book-promo mt-4 rounded-xl bg-slate-800 px-6 py-8 text-center text-white">
-      <p class="book-promo-muted mb-2 text-sm text-slate-300 italic">Adapted from</p>
-      <p class="font-serif-display mb-1 text-2xl leading-tight">
-        <a href={BOOK_LINK} rel="noopener" class="text-white no-underline hover:underline"
-          >Open <span class="text-accent">&amp;</span> Async</a
-        >
-      </p>
-      <p class="book-promo-muted mt-2 text-sm text-slate-300">By Ben Balter</p>
-      <p class="book-promo-muted mt-1 text-sm text-slate-300">
-        A playbook for remote and distributed teams that actually work.
-      </p>
-      <a
-        href={BOOK_LINK}
-        rel="noopener"
-        class="book-promo-cta mt-5 inline-block rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-blue-700"
-        >Get the book &rarr;</a
-      >
-    </div>
+    <BookCta />
 
     <p class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
       Inspired by

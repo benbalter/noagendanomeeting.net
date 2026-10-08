@@ -1,0 +1,45 @@
+---
+import { Copy } from "@lucide/astro";
+
+interface Props {
+  heading: string;
+  text: string;
+  // Names the copied thing in the button and status ("Copy reply", "Reply copied").
+  label: string;
+  // Keep line breaks and indentation, for multi-line text like the agenda template.
+  preformatted?: boolean;
+}
+
+const { heading, text, label, preformatted = false } = Astro.props;
+// The <pre> uses set:text so formatter whitespace inside it never renders.
+---
+
+<div
+  class="dark:border-brand-600 dark:bg-brand-900 my-6 rounded-lg border border-gray-300 bg-white px-5 py-4 shadow-sm"
+>
+  <h3 class="mb-2 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
+    {heading}
+  </h3>
+  {
+    preformatted ? (
+      <pre
+        class="mb-3 font-sans text-[0.95rem] whitespace-pre-wrap text-gray-700 dark:text-gray-300"
+        set:text={text}
+      />
+    ) : (
+      <blockquote class="mb-3 text-[0.95rem] text-gray-700 dark:text-gray-300">
+        <p>{text}</p>
+      </blockquote>
+    )
+  }
+  <button
+    type="button"
+    data-copy-text={text}
+    data-copy-label={label}
+    class="text-accent-alt hover:border-accent-alt dark:border-brand-600 dark:bg-brand-950 dark:hover:bg-brand-900 inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1 text-sm transition-colors hover:bg-pink-50"
+  >
+    Copy {label.toLowerCase()}
+    <Copy aria-hidden="true" size={14} class="text-gray-500 dark:text-gray-400" />
+  </button>
+  <span role="status" class="sr-only" data-copy-status></span>
+</div>

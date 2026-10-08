@@ -39,8 +39,8 @@ const ogImageUrl = new URL("/og-image.png", Astro.site ?? SITE_URL);
     <meta name="author" content={AUTHOR.name} />
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#102038" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#102038" media="(prefers-color-scheme: dark)" />
 
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -87,11 +87,11 @@ const ogImageUrl = new URL("/og-image.png", Astro.site ?? SITE_URL);
     }
   </head>
   <body
-    class="text-ink bg-neutral-50 font-sans text-base leading-relaxed antialiased dark:bg-gray-900 dark:text-gray-200"
+    class="text-ink dark:bg-brand-950 bg-neutral-50 font-sans text-base leading-relaxed antialiased dark:text-gray-200"
   >
     <a
       href="#content"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-blue-700 focus:shadow dark:focus:bg-gray-800 dark:focus:text-blue-400"
+      class="focus:text-accent-alt dark:focus:bg-brand-900 sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:shadow"
       >Skip to content</a
     >
     <slot />
