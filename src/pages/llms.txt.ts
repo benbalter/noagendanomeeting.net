@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { AUTHOR, BOOK_URL, DECLINE_REPLY, SITE_NAME, SITE_URL } from "../consts";
+import { AUTHOR, BOOK_URL, DECLINE_REPLY, REPO_URL, SITE_NAME, SITE_URL } from "../consts";
 
 // Built from consts.ts so names, links, and the reply can't drift from the page.
 export const GET: APIRoute = () => {
@@ -19,6 +19,7 @@ export const GET: APIRoute = () => {
 - [${SITE_NAME}](${SITE_URL}): the full page
 - [Open & Async](${BOOK_URL}): the book by ${AUTHOR.name} this page is adapted from
 - [${AUTHOR.name}](${AUTHOR.url}): author
+- [Source code](${REPO_URL}): the site's repository on GitHub
 `;
   return new Response(body, {
     headers: { "Content-Type": "text/plain; charset=utf-8" },
