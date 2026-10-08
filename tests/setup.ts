@@ -10,6 +10,10 @@ export function loadDist(relativePath: string): string {
   return readFileSync(resolve(dist, relativePath), "utf-8");
 }
 
+export function loadDistBuffer(relativePath: string): Buffer {
+  return readFileSync(resolve(dist, relativePath));
+}
+
 export function loadRawHTML(page = "index.html"): string {
   return loadDist(page);
 }
