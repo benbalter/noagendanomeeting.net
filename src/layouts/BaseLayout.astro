@@ -48,43 +48,41 @@ const ogImageUrl = new URL("/og-image.png", Astro.site ?? SITE_URL);
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="author" href="/humans.txt" type="text/plain" />
-    {AUTHOR.sameAs.map((href) => <link rel="me" href={href} />)}
+    {AUTHOR.sameAs.map((href) => (
+      <link rel="me" href={href} />
+    ))}
 
     <Font cssVariable="--font-dm-serif-display" preload />
 
-    {
-      !noindex && (
-        <>
-          <link rel="canonical" href={canonicalUrl.href} />
+    {!noindex && (
+      <>
+        <link rel="canonical" href={canonicalUrl.href} />
 
-          <meta property="og:type" content="website" />
-          <meta property="og:site_name" content={SITE_NAME} />
-          <meta property="og:locale" content="en_US" />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={SOCIAL_DESCRIPTION} />
-          <meta property="og:url" content={canonicalUrl.href} />
-          <meta property="og:image" content={ogImageUrl.href} />
-          <meta property="og:image:type" content="image/png" />
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-          <meta property="og:image:alt" content={OG_IMAGE_ALT} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={SITE_NAME} />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={SOCIAL_DESCRIPTION} />
+        <meta property="og:url" content={canonicalUrl.href} />
+        <meta property="og:image" content={ogImageUrl.href} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={OG_IMAGE_ALT} />
 
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:site" content={AUTHOR.twitter} />
-          <meta name="twitter:creator" content={AUTHOR.twitter} />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={SOCIAL_DESCRIPTION} />
-          <meta name="twitter:image" content={ogImageUrl.href} />
-          <meta name="twitter:image:alt" content={OG_IMAGE_ALT} />
-        </>
-      )
-    }
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content={AUTHOR.twitter} />
+        <meta name="twitter:creator" content={AUTHOR.twitter} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={SOCIAL_DESCRIPTION} />
+        <meta name="twitter:image" content={ogImageUrl.href} />
+        <meta name="twitter:image:alt" content={OG_IMAGE_ALT} />
+      </>
+    )}
 
-    {
-      structuredData && (
-        <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-      )
-    }
+    {structuredData && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
   </head>
   <body
     class="text-ink bg-neutral-50 font-sans text-base leading-relaxed antialiased dark:bg-gray-900 dark:text-gray-200"
