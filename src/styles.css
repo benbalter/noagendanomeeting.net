@@ -1,15 +1,7 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "DM Serif Display";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/dm-serif-display-400.woff2") format("woff2");
-}
-
 @theme {
-  --font-serif-display: "DM Serif Display", serif;
+  --font-serif-display: var(--font-dm-serif-display);
   --color-ink: #1a1a2e;
   --color-accent: #3b82f6;
 }

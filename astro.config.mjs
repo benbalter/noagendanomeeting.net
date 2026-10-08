@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -10,7 +10,10 @@ export default defineConfig({
   compressHTML: true,
   build: {
     format: "file",
-    inlineStylesheets: "never",
+    // The CSP is a per-page <meta> with hashes, so inline <style> is allowed and
+    // saves a render-blocking request (it was external only for the old
+    // header-based style-src 'self').
+    inlineStylesheets: "always",
   },
   // Astro emits a per-page CSP <meta> with hashes for its inline scripts.
   // frame-ancestors can't be set via <meta>, so it lives in public/_headers.
@@ -36,6 +39,25 @@ export default defineConfig({
       },
     },
   },
+  // Astro's Fonts API self-hosts the heading font, preloads it, and generates a
+  // metric-matched serif fallback so the swap doesn't shift the layout.
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: "DM Serif Display",
+      cssVariable: "--font-dm-serif-display",
+      fallbacks: ["serif"],
+      options: {
+        variants: [
+          {
+            weight: 400,
+            style: "normal",
+            src: ["./src/assets/fonts/dm-serif-display-400.woff2"],
+          },
+        ],
+      },
+    },
+  ],
   // No Markdown on this site; Shiki's inline styles would conflict with the CSP.
   markdown: { syntaxHighlight: false },
   integrations: [sitemap()],
