@@ -28,6 +28,17 @@ export const DATE_MODIFIED = "2026-10-08";
 export const DECLINE_REPLY =
   "Happy to join once there's an agenda and a desired outcome. Until then, could we start in a doc or thread?";
 
+// A copy-paste agenda for organizers, mirroring the page's good-invite
+// example: the decision first, time-boxed items, then the read-ahead.
+export const AGENDA_TEMPLATE = `Goal: [the decision we need to make or the question we need to answer]
+
+Agenda:
+1. [Context or status update] (5 min)
+2. [Open questions to discuss] (10 min)
+3. Decision: [what we're deciding] (15 min)
+
+Read-ahead (please read before we meet): [link]`;
+
 // Canonical book URL and @id, matching open-and-async.com's own JSON-LD.
 export const BOOK_URL = "https://open-and-async.com/";
 export const BOOK_ID = `${BOOK_URL}#book`;

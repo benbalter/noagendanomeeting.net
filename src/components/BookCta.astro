@@ -1,0 +1,68 @@
+---
+/**
+ * Open & Async promo, ported from ben.balter.com's BookCta (featured variant)
+ * and word2md's promo card so the book reads the same everywhere: a navy
+ * "book object" with the commit-graph motif, the 3D cover, and the lime→pink
+ * accent. Colors are fixed, not theme tokens, so the card matches the book's
+ * site in both light and dark mode.
+ */
+import { Image } from "astro:assets";
+import { AUTHOR, BOOK_LINK } from "../consts";
+import cover from "../assets/img/open-and-async-cover.webp";
+---
+
+<a
+  href={BOOK_LINK}
+  rel="noopener"
+  class="book-promo group border-brand-600 bg-brand-950 focus-visible:outline-lime relative mt-4 block overflow-hidden rounded-xl border px-6 py-8 text-white no-underline shadow-sm transition-all duration-200 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-px"
+>
+  <svg
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-10 w-full opacity-40"
+    viewBox="0 0 1200 60"
+    fill="none"
+    preserveAspectRatio="xMidYMid meet"
+    aria-hidden="true"
+  >
+    <path d="M0 30 H 1200" stroke="#d0d820" stroke-width="2.5"></path>
+    <path d="M340 30 C 420 30, 440 12, 520 12 S 680 30, 760 30" stroke="#f070a8" stroke-width="2"
+    ></path>
+    <path d="M620 30 C 700 30, 720 48, 800 48 S 940 36, 1000 30" stroke="#d0d820" stroke-width="2"
+    ></path>
+    <circle cx="240" cy="30" r="6" fill="#d0d820"></circle>
+    <circle cx="520" cy="12" r="5" fill="#f070a8"></circle>
+    <circle cx="800" cy="48" r="5" fill="#d0d820"></circle>
+    <circle cx="1000" cy="30" r="8" fill="none" stroke="#d0d820" stroke-width="2.5"></circle>
+  </svg>
+  <div class="relative flex flex-col items-center gap-6 sm:flex-row sm:text-left">
+    <Image
+      src={cover}
+      alt="Open & Async book cover"
+      widths={[144, 288]}
+      sizes="144px"
+      loading="lazy"
+      decoding="async"
+      class="h-auto w-36 shrink-0"
+    />
+    <div class="text-center sm:text-left">
+      <p class="book-promo-muted text-lime mb-1 font-mono text-[0.7rem] tracking-widest uppercase">
+        <span aria-hidden="true">&gt;</span> Adapted from the book
+      </p>
+      <p class="font-serif-display mb-1 text-3xl leading-tight">
+        Open <span class="oa-amp">&amp;</span> Async
+      </p>
+      <p class="book-promo-muted text-sm text-slate-300">By {AUTHOR.name}</p>
+      <p class="book-promo-muted mt-1 text-sm text-slate-300">
+        A playbook for remote and distributed teams that actually work.
+      </p>
+      <span
+        class="book-promo-cta oa-cta-btn text-brand-950 mt-5 inline-flex items-center gap-1.5 rounded-lg px-5 py-2.5 text-sm font-semibold"
+      >
+        Get the book
+        <span
+          aria-hidden="true"
+          class="transition-transform motion-safe:group-hover:translate-x-0.5">&rarr;</span
+        >
+      </span>
+    </div>
+  </div>
+</a>

@@ -54,6 +54,31 @@ function fallbackCopy(text: string): boolean {
   }
 }
 
+// Phones get the native share sheet; elsewhere navigator.share either doesn't
+// exist or opens a desktop dialog that's clumsier than copying the link.
+export function canNativeShare(): boolean {
+  return (
+    typeof navigator.share === "function" &&
+    window.matchMedia?.("(pointer: coarse)").matches === true
+  );
+}
+
+export function createShareHandler(
+  url: string,
+  fallback: () => Promise<void>,
+): () => Promise<void> {
+  return async () => {
+    if (!canNativeShare()) return fallback();
+    try {
+      await navigator.share({ title: document.title, url });
+    } catch (error) {
+      // AbortError means the person closed the share sheet; don't copy behind their back.
+      if ((error as DOMException | undefined)?.name !== "AbortError") await fallback();
+    }
+  };
+}
+
+// Buttons with data-share try the native share sheet first.
 // Each button announces through the [data-copy-status] region that shares its
 // parent, so several copy buttons can live on one page.
 export function initClipboard(): void {
@@ -61,6 +86,8 @@ export function initClipboard(): void {
     const text = button.getAttribute("data-copy-text") ?? "";
     const label = button.getAttribute("data-copy-label") ?? undefined;
     const status = button.parentElement?.querySelector<HTMLElement>("[data-copy-status]");
-    button.addEventListener("click", createCopyHandler(button, text, status, label));
+    const copy = createCopyHandler(button, text, status, label);
+    const handler = button.hasAttribute("data-share") ? createShareHandler(text, copy) : copy;
+    button.addEventListener("click", handler);
   });
 }

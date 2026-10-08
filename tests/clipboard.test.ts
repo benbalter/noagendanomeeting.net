@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { createCopyHandler, initClipboard, RESET_DELAY_MS } from "../src/clipboard";
+import {
+  canNativeShare,
+  createCopyHandler,
+  createShareHandler,
+  initClipboard,
+  RESET_DELAY_MS,
+} from "../src/clipboard";
 
 describe("createCopyHandler", () => {
   let button: HTMLButtonElement;
@@ -220,5 +226,78 @@ describe("initClipboard", () => {
 
     // The click triggers an async handler, but the clipboard mock captures the call
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith("https://custom-url.test");
+  });
+});
+
+describe("createShareHandler", () => {
+  const setCoarsePointer = (coarse: boolean) => {
+    window.matchMedia = vi.fn().mockReturnValue({ matches: coarse }) as typeof window.matchMedia;
+  };
+
+  afterEach(() => {
+    Reflect.deleteProperty(navigator, "share");
+    vi.restoreAllMocks();
+  });
+
+  it("should copy instead when navigator.share is missing", async () => {
+    setCoarsePointer(true);
+    const fallback = vi.fn().mockResolvedValue(undefined);
+    await createShareHandler("https://example.com", fallback)();
+    expect(canNativeShare()).toBe(false);
+    expect(fallback).toHaveBeenCalledOnce();
+  });
+
+  it("should copy instead on a fine pointer, even with navigator.share", async () => {
+    setCoarsePointer(false);
+    Object.assign(navigator, { share: vi.fn().mockResolvedValue(undefined) });
+    const fallback = vi.fn().mockResolvedValue(undefined);
+    await createShareHandler("https://example.com", fallback)();
+    expect(navigator.share).not.toHaveBeenCalled();
+    expect(fallback).toHaveBeenCalledOnce();
+  });
+
+  it("should open the share sheet on phones", async () => {
+    setCoarsePointer(true);
+    Object.assign(navigator, { share: vi.fn().mockResolvedValue(undefined) });
+    const fallback = vi.fn().mockResolvedValue(undefined);
+    await createShareHandler("https://example.com", fallback)();
+    expect(navigator.share).toHaveBeenCalledWith(
+      expect.objectContaining({ url: "https://example.com" }),
+    );
+    expect(fallback).not.toHaveBeenCalled();
+  });
+
+  it("should not copy when the person dismisses the share sheet", async () => {
+    setCoarsePointer(true);
+    Object.assign(navigator, {
+      share: vi.fn().mockRejectedValue(new DOMException("dismissed", "AbortError")),
+    });
+    const fallback = vi.fn().mockResolvedValue(undefined);
+    await createShareHandler("https://example.com", fallback)();
+    expect(fallback).not.toHaveBeenCalled();
+  });
+
+  it("should copy when sharing fails for another reason", async () => {
+    setCoarsePointer(true);
+    Object.assign(navigator, {
+      share: vi.fn().mockRejectedValue(new DOMException("blocked", "NotAllowedError")),
+    });
+    const fallback = vi.fn().mockResolvedValue(undefined);
+    await createShareHandler("https://example.com", fallback)();
+    expect(fallback).toHaveBeenCalledOnce();
+  });
+
+  it("should route data-share buttons through the share sheet", async () => {
+    setCoarsePointer(true);
+    Object.assign(navigator, { share: vi.fn().mockResolvedValue(undefined) });
+    const button = document.createElement("button");
+    button.setAttribute("data-copy-text", "https://example.com");
+    button.setAttribute("data-share", "");
+    document.body.appendChild(button);
+
+    initClipboard();
+    button.click();
+    await vi.waitFor(() => expect(navigator.share).toHaveBeenCalled());
+    document.body.innerHTML = "";
   });
 });

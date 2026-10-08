@@ -1,4 +1,6 @@
 ---
+import { CalendarDays } from "@lucide/astro";
+
 interface Props {
   variant: "bad" | "good";
   subject: string;
@@ -14,7 +16,7 @@ const headerClass = {
 ---
 
 <div
-  class="mt-4 mb-6 overflow-hidden rounded-xl border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800"
+  class="dark:border-brand-600 dark:bg-brand-900 mt-4 mb-6 overflow-hidden rounded-xl border border-gray-300 bg-white shadow-sm"
 >
   <div
     class:list={[
@@ -22,14 +24,14 @@ const headerClass = {
       headerClass,
     ]}
   >
-    <span aria-hidden="true">📅</span> Calendar Invite
+    <CalendarDays aria-hidden="true" size={14} /> Calendar Invite
   </div>
   <div class="p-4">
     <div class="mb-3 text-lg font-bold">{subject}</div>
     <slot />
   </div>
   <p
-    class="border-t border-gray-100 px-4 py-3 text-[0.95rem] text-gray-600 italic dark:border-gray-700 dark:text-gray-400"
+    class="dark:border-brand-600 border-t border-gray-100 px-4 py-3 text-[0.95rem] text-gray-600 italic dark:text-gray-400"
   >
     {reaction}
   </p>
