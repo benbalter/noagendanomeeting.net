@@ -99,6 +99,13 @@ describe("createCopyHandler", () => {
     vi.useRealTimers();
   });
 
+  it("should name what was copied using the label", async () => {
+    const status = document.createElement("span");
+    const handler = createCopyHandler(button, "Happy to join", status, "Reply");
+    await handler();
+    expect(status.textContent).toBe("Reply copied to clipboard.");
+  });
+
   it("should restart the reset timer on repeat clicks", async () => {
     vi.useFakeTimers();
     const handler = createCopyHandler(button, "https://noagendanomeeting.net");
@@ -128,9 +135,9 @@ describe("initClipboard", () => {
     document.body.innerHTML = "";
   });
 
-  it("should attach click handlers to all [data-copy-url] buttons", () => {
+  it("should attach click handlers to all [data-copy-text] buttons", () => {
     const button = document.createElement("button");
-    button.setAttribute("data-copy-url", "https://example.com");
+    button.setAttribute("data-copy-text", "https://example.com");
     button.textContent = "Copy";
     document.body.appendChild(button);
 
@@ -141,9 +148,9 @@ describe("initClipboard", () => {
 
   it("should handle multiple buttons", () => {
     const btn1 = document.createElement("button");
-    btn1.setAttribute("data-copy-url", "https://a.com");
+    btn1.setAttribute("data-copy-text", "https://a.com");
     const btn2 = document.createElement("button");
-    btn2.setAttribute("data-copy-url", "https://b.com");
+    btn2.setAttribute("data-copy-text", "https://b.com");
     document.body.appendChild(btn1);
     document.body.appendChild(btn2);
 
@@ -155,7 +162,7 @@ describe("initClipboard", () => {
     expect(spy2).toHaveBeenCalledWith("click", expect.any(Function));
   });
 
-  it("should do nothing if no [data-copy-url] elements exist", () => {
+  it("should do nothing if no [data-copy-text] elements exist", () => {
     expect(() => initClipboard()).not.toThrow();
   });
 
@@ -164,7 +171,7 @@ describe("initClipboard", () => {
       clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
     });
     const button = document.createElement("button");
-    button.setAttribute("data-copy-url", "https://example.com");
+    button.setAttribute("data-copy-text", "https://example.com");
     const status = document.createElement("span");
     status.setAttribute("data-copy-status", "");
     document.body.append(button, status);
@@ -174,13 +181,37 @@ describe("initClipboard", () => {
     await vi.waitFor(() => expect(status.textContent).toBe("Link copied to clipboard."));
   });
 
-  it("should use the data-copy-url attribute value as the URL", () => {
+  it("should pair each button with the status region in its own parent", async () => {
+    Object.assign(navigator, {
+      clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+    });
+    const makeGroup = (text: string, label?: string) => {
+      const group = document.createElement("div");
+      const button = document.createElement("button");
+      button.setAttribute("data-copy-text", text);
+      if (label) button.setAttribute("data-copy-label", label);
+      const status = document.createElement("span");
+      status.setAttribute("data-copy-status", "");
+      group.append(button, status);
+      document.body.appendChild(group);
+      return { button, status };
+    };
+    const link = makeGroup("https://example.com");
+    const reply = makeGroup("Happy to join", "Reply");
+
+    initClipboard();
+    reply.button.click();
+    await vi.waitFor(() => expect(reply.status.textContent).toBe("Reply copied to clipboard."));
+    expect(link.status.textContent).toBe("");
+  });
+
+  it("should use the data-copy-text attribute value as the copied text", () => {
     Object.assign(navigator, {
       clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
     });
 
     const button = document.createElement("button");
-    button.setAttribute("data-copy-url", "https://custom-url.test");
+    button.setAttribute("data-copy-text", "https://custom-url.test");
     button.textContent = "Copy";
     document.body.appendChild(button);
 

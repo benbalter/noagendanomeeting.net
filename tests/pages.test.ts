@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { DATE_MODIFIED, DECLINE_REPLY } from "../src/consts";
 import { loadDist, loadDocument } from "./setup";
 
 describe("404 page", () => {
@@ -41,6 +42,7 @@ describe("sitemap", () => {
     const sitemap = loadDist("sitemap-0.xml");
     expect(sitemap).toContain("<loc>https://noagendanomeeting.net");
     expect(sitemap).not.toContain("404");
+    expect(sitemap).toContain(`<lastmod>${DATE_MODIFIED}`);
   });
 });
 
@@ -57,6 +59,7 @@ describe("security.txt", () => {
 describe("discovery files", () => {
   it("should ship llms.txt and humans.txt", () => {
     expect(loadDist("llms.txt")).toMatch(/^# No Agenda, No Meeting/);
+    expect(loadDist("llms.txt")).toContain(DECLINE_REPLY);
     expect(loadDist("humans.txt")).toContain("Ben Balter");
   });
 

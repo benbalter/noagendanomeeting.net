@@ -21,7 +21,7 @@ describe("Page Content", () => {
   it("should keep spaces between inline elements", () => {
     const text = (document.body.textContent ?? "").replace(/\s+/g, " ");
     expect(text).toContain('says "Quick sync" with');
-    expect(text).toContain("spends 40% of their workweek");
+    expect(text).toContain("spend one to two full days a week in meetings");
     expect(text).toContain("Inspired by nohello.net");
   });
 
@@ -49,15 +49,30 @@ describe("Page Content", () => {
     expect(found).toBe(true);
   });
 
-  it("should mention the 40% meetings statistic", () => {
+  // Published figures vary widely and none supports the old "40%" claim.
+  it("should not cite an unsourced meetings percentage", () => {
     const text = document.querySelector("main")?.textContent ?? "";
-    expect(text).toContain("40%");
+    expect(text).not.toMatch(/\d+% of (their|the) workweek/);
   });
 
   it("should have a share prompt with the site URL", () => {
-    const button = document.querySelector("[data-copy-url]");
+    const button = document.querySelector("footer [data-copy-text]");
     expect(button).not.toBeNull();
-    expect(button?.getAttribute("data-copy-url")).toBe("https://noagendanomeeting.net");
+    expect(button?.getAttribute("data-copy-text")).toBe("https://noagendanomeeting.net");
+  });
+
+  it("should offer a copyable decline reply that matches the text shown", () => {
+    const button = document.querySelector('main [data-copy-label="Reply"]');
+    const shown = button?.parentElement?.querySelector("blockquote")?.textContent?.trim();
+    expect(shown).toContain("agenda and a desired outcome");
+    expect(button?.getAttribute("data-copy-text")).toBe(shown);
+  });
+
+  it("should not style the example read-ahead like a link", () => {
+    const readAhead = Array.from(document.querySelectorAll("span")).find(
+      (el) => el.textContent === "Q3 launch status doc",
+    );
+    expect(readAhead?.className).not.toMatch(/text-blue/);
   });
 
   it("should link to the Open & Async book", () => {

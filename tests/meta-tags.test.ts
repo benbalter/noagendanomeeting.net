@@ -15,7 +15,9 @@ describe("Open Graph Meta Tags", () => {
 
   it("should have og:title matching the page title", () => {
     const meta = document.querySelector('meta[property="og:title"]');
-    expect(meta?.getAttribute("content")).toBe("No Agenda, No Meeting");
+    expect(meta?.getAttribute("content")).toBe(
+      "No Agenda, No Meeting — Why Every Invite Needs an Agenda",
+    );
   });
 
   it("should have og:description", () => {
@@ -56,7 +58,9 @@ describe("Twitter Card Meta Tags", () => {
 
   it("should have twitter:title matching the page title", () => {
     const meta = document.querySelector('meta[name="twitter:title"]');
-    expect(meta?.getAttribute("content")).toBe("No Agenda, No Meeting");
+    expect(meta?.getAttribute("content")).toBe(
+      "No Agenda, No Meeting — Why Every Invite Needs an Agenda",
+    );
   });
 
   it("should have twitter:description", () => {
@@ -146,7 +150,7 @@ describe("Structured data", () => {
 
   it("should describe the page as an Article with dates", () => {
     const article = byType("Article");
-    expect(article?.headline).toBe("No Agenda, No Meeting");
+    expect(article?.headline).toBe("No Agenda, No Meeting — Why Every Invite Needs an Agenda");
     expect(article?.datePublished).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(article?.dateModified).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });

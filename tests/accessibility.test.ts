@@ -54,14 +54,18 @@ describe("Accessibility", () => {
   });
 
   it("should include the visible text in the copy button's accessible name", () => {
-    const button = document.querySelector("[data-copy-url]");
+    const button = document.querySelector("footer [data-copy-text]");
     expect(button?.hasAttribute("aria-label")).toBe(false);
     expect(button?.textContent).toContain("noagendanomeeting.net");
     expect(button?.getAttribute("type")).toBe("button");
   });
 
   it("should have a live region to announce copy results", () => {
-    expect(document.querySelector('[data-copy-status][role="status"]')).not.toBeNull();
+    document.querySelectorAll("[data-copy-text]").forEach((button) => {
+      expect(
+        button.parentElement?.querySelector('[data-copy-status][role="status"]'),
+      ).not.toBeNull();
+    });
   });
 
   it("should use semantic list elements", () => {

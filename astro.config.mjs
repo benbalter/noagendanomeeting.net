@@ -1,9 +1,10 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
+import { DATE_MODIFIED, SITE_URL } from "./src/consts.ts";
 
 export default defineConfig({
-  site: "https://noagendanomeeting.net",
+  site: SITE_URL,
   output: "static",
   // Astro 7 defaults to "jsx", which drops whitespace between inline elements
   // across line breaks (e.g. "says<em>Quick sync</em>with").
@@ -38,7 +39,8 @@ export default defineConfig({
   },
   // No Markdown on this site; Shiki's inline styles would conflict with the CSP.
   markdown: { syntaxHighlight: false },
-  integrations: [sitemap()],
+  // Single-page site, so the page's DATE_MODIFIED is the sitemap's lastmod.
+  integrations: [sitemap({ lastmod: new Date(DATE_MODIFIED) })],
   vite: {
     plugins: [tailwindcss()],
   },

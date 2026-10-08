@@ -43,7 +43,9 @@ describe("HTML Document Structure", () => {
   });
 
   it("should have a title element", () => {
-    expect(document.title).toBe("No Agenda, No Meeting");
+    expect(document.title).toBe("No Agenda, No Meeting — Why Every Invite Needs an Agenda");
+    // Google truncates titles past roughly 60 characters.
+    expect(document.title.length).toBeLessThanOrEqual(60);
   });
 
   it("should have a description meta tag", () => {
