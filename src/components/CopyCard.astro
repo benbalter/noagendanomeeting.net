@@ -20,18 +20,16 @@ const { heading, text, label, preformatted = false } = Astro.props;
   <h3 class="mb-2 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
     {heading}
   </h3>
-  {
-    preformatted ? (
-      <pre
-        class="mb-3 font-sans text-[0.95rem] whitespace-pre-wrap text-gray-700 dark:text-gray-300"
-        set:text={text}
-      />
-    ) : (
-      <blockquote class="mb-3 text-[0.95rem] text-gray-700 dark:text-gray-300">
-        <p>{text}</p>
-      </blockquote>
-    )
-  }
+  {preformatted ? (
+    <pre
+      class="mb-3 font-sans text-[0.95rem] whitespace-pre-wrap text-gray-700 dark:text-gray-300"
+      set:text={text}
+    />
+  ) : (
+    <blockquote class="mb-3 text-[0.95rem] text-gray-700 dark:text-gray-300">
+      <p>{text}</p>
+    </blockquote>
+  )}
   <button
     type="button"
     data-copy-text={text}
