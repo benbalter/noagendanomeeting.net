@@ -1,4 +1,5 @@
 ---
+import { Font } from "astro:assets";
 import "../styles.css";
 import {
   AUTHOR,
@@ -49,13 +50,7 @@ const ogImageUrl = new URL("/og-image.png", Astro.site ?? SITE_URL);
     <link rel="author" href="/humans.txt" type="text/plain" />
     {AUTHOR.sameAs.map((href) => <link rel="me" href={href} />)}
 
-    <link
-      rel="preload"
-      href="/fonts/dm-serif-display-400.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    <Font cssVariable="--font-dm-serif-display" preload />
 
     {
       !noindex && (

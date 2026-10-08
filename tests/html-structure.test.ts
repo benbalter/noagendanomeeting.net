@@ -59,8 +59,12 @@ describe("HTML Document Structure", () => {
     expect(link).not.toBeNull();
   });
 
-  it("should link an external stylesheet", () => {
-    expect(document.querySelector('link[rel="stylesheet"]')).not.toBeNull();
+  it("should inline the site stylesheet", () => {
+    const css = Array.from(document.querySelectorAll("style"))
+      .map((s) => s.textContent)
+      .join("");
+    expect(css).toContain(".arrow-list");
+    expect(document.querySelector('link[rel="stylesheet"]')).toBeNull();
   });
 
   it("should include a module script", () => {

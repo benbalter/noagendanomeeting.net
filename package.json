@@ -22,7 +22,7 @@
     "clean": "rm -rf dist coverage node_modules/.vite .astro .lighthouseci",
     "deploy": "wrangler deploy",
     "lint:html": "html-validate \"dist/**/*.html\"",
-    "lighthouse": "npx --yes @lhci/cli@0.15 autorun"
+    "lighthouse": "lhci autorun"
   },
   "keywords": [
     "meetings",
@@ -35,6 +35,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@astrojs/sitemap": "3.7.4",
+    "@lhci/cli": "0.15.1",
     "@tailwindcss/vite": "^4.1.18",
     "@types/jsdom": "^30.0.0",
     "@types/node": "^25.5.2",

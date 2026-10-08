@@ -16,8 +16,16 @@ describe.each(listDistHTML())("CSP compliance: %s", (page) => {
     expect(csp).not.toContain("'unsafe-eval'");
   });
 
-  it("should not use inline <style> elements", () => {
-    expect(document.querySelectorAll("style")).toHaveLength(0);
+  // Inline <style> is fine as long as style-src carries its hash; Astro adds
+  // one for each block it emits (the stylesheet and the Fonts API rules).
+  it("should hash every inline <style> in style-src", () => {
+    const styleSrc = csp.split(";").find((d) => d.trim().startsWith("style-src")) ?? "";
+    for (const style of Array.from(document.querySelectorAll("style"))) {
+      const hash = createHash("sha256")
+        .update(style.textContent ?? "")
+        .digest("base64");
+      expect(styleSrc).toContain(`'sha256-${hash}'`);
+    }
   });
 
   it("should not use style attributes", () => {
