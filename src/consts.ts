@@ -2,7 +2,7 @@ export const SITE_URL = "https://noagendanomeeting.net/";
 // Bare host and slashless URL, for the share button's label and copied link.
 export const SITE_HOST = new URL(SITE_URL).host;
 export const SHARE_URL = `https://${SITE_HOST}`;
-export const REPO_URL = "https://github.com/benbalter/noagendanomeeting.net";
+export const REPO_URL = "https://github.com/open-and-async/noagendanomeeting.net";
 export const SITE_NAME = "No Agenda, No Meeting";
 // The brand alone doesn't say what the page is about in search results, so
 // the homepage title adds the topic. Keep it under ~60 characters so Google

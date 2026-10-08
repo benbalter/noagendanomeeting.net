@@ -137,7 +137,7 @@ describe("Page Content", () => {
 
   it("should link to the source repository from the footer", () => {
     const link = document.querySelector(
-      'footer a[href="https://github.com/benbalter/noagendanomeeting.net"]',
+      'footer a[href="https://github.com/open-and-async/noagendanomeeting.net"]',
     );
     expect(link?.textContent?.trim()).toBe("Source on GitHub");
   });
