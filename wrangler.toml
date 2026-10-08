@@ -7,6 +7,10 @@ compatibility_date = "2026-04-05"
 workers_dev = false
 preview_urls = false
 
+# Bind the apex here rather than in the dashboard, so every deploy (Workers
+# Builds or `npm run deploy`) asserts it and the binding lives with the code.
+routes = [{ pattern = "noagendanomeeting.net", custom_domain = true }]
+
 [build]
 command = "npm install && npm run build"
 
