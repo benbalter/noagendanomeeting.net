@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Invite from "../components/Invite.astro";
 import InviteField from "../components/InviteField.astro";
-import { BOOK_LINK } from "../consts";
+import { BOOK_LINK, DECLINE_REPLY, SHARE_URL, SITE_HOST } from "../consts";
 import { homeGraph } from "../jsonld";
 ---
 
@@ -81,7 +81,7 @@ import { homeGraph } from "../jsonld";
           </div>
           <div class="mt-2 text-sm">
             <span aria-hidden="true">📎</span> Read-ahead:
-            <span class="text-blue-700 dark:text-blue-400">Q3 launch status doc</span>
+            <span class="font-medium text-gray-700 dark:text-gray-300">Q3 launch status doc</span>
           </div>
         </Invite>
 
@@ -104,9 +104,10 @@ import { homeGraph } from "../jsonld";
         <div
           class="my-6 rounded-r-lg border-l-4 border-blue-500 bg-blue-50 px-5 py-4 text-[0.95rem] dark:bg-blue-950"
         >
-          The average knowledge worker spends
-          <strong class="text-blue-800 dark:text-blue-300">40% of their workweek in meetings</strong
-          >&mdash;that's two full days before they even start the "real work."
+          Depending on whose survey you read, knowledge workers spend
+          <strong class="text-blue-800 dark:text-blue-300"
+            >one to two full days a week in meetings</strong
+          >&mdash;before they even start the "real work."
         </div>
 
         <p class="mb-4 leading-relaxed">Every agenda-less meeting carries hidden costs:</p>
@@ -170,6 +171,29 @@ import { homeGraph } from "../jsonld";
           </li>
         </ul>
 
+        <div
+          class="my-6 rounded-lg border border-gray-300 bg-white px-5 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        >
+          <p
+            class="mb-2 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
+          >
+            What to send back
+          </p>
+          <blockquote class="mb-3 text-[0.95rem] text-gray-700 dark:text-gray-300">
+            <p>{DECLINE_REPLY}</p>
+          </blockquote>
+          <button
+            type="button"
+            data-copy-text={DECLINE_REPLY}
+            data-copy-label="Reply"
+            class="inline-flex cursor-pointer items-center rounded-md border border-gray-300 bg-white px-3 py-1 text-sm text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-900 dark:text-blue-400 dark:hover:border-blue-500 dark:hover:bg-blue-950"
+          >
+            Copy reply
+            <span aria-hidden="true" class="ml-1.5 text-gray-500">📋</span>
+          </button>
+          <span role="status" class="sr-only" data-copy-status></span>
+        </div>
+
         <p class="mb-4 leading-relaxed">
           Writing scales; meetings don't. A well-written document can reach hundreds of people at
           their convenience without interrupting anyone's flow. A meeting reaches only the people in
@@ -188,10 +212,10 @@ import { homeGraph } from "../jsonld";
       Got an invite without an agenda? Share this page:<br />
       <button
         type="button"
-        data-copy-url="https://noagendanomeeting.net"
+        data-copy-text={SHARE_URL}
         class="mt-2 inline-flex cursor-pointer items-center rounded-md border border-gray-300 bg-white px-3 py-1 font-mono text-sm text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-900 dark:text-blue-400 dark:hover:border-blue-500 dark:hover:bg-blue-950"
       >
-        <span class="sr-only">Copy </span>noagendanomeeting.net
+        <span class="sr-only">Copy </span>{SITE_HOST}
         <span aria-hidden="true" class="ml-1.5 text-gray-500">📋</span>
       </button>
       <span role="status" class="sr-only" data-copy-status></span>

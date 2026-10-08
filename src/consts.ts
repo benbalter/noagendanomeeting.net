@@ -1,4 +1,7 @@
 export const SITE_URL = "https://noagendanomeeting.net/";
+// Bare host and slashless URL, for the share button's label and copied link.
+export const SITE_HOST = new URL(SITE_URL).host;
+export const SHARE_URL = `https://${SITE_HOST}`;
 export const SITE_NAME = "No Agenda, No Meeting";
 
 export const DESCRIPTION =
@@ -11,7 +14,12 @@ export const OG_IMAGE_ALT =
   "No Agenda, No Meeting — Please don't send meeting invites without an agenda.";
 
 export const DATE_PUBLISHED = "2026-04-05";
-export const DATE_MODIFIED = "2026-09-27";
+export const DATE_MODIFIED = "2026-10-08";
+
+// A copy-paste reply to an agenda-less invite, adapted from the note in
+// Open & Async's "Meetings are a point of escalation" chapter. The book's
+// "this belongs in an issue" is generalized for non-GitHub readers.
+export const DECLINE_REPLY = `Happy to join once there's an agenda and a desired outcome. Until then, could we start in a doc or thread? (Here's why: ${SITE_HOST})`;
 
 // Canonical book URL and @id, matching open-and-async.com's own JSON-LD.
 export const BOOK_URL = "https://open-and-async.com/";

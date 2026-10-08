@@ -1,21 +1,23 @@
 export const RESET_DELAY_MS = 2000;
 
+// `label` names what was copied in status messages ("Link copied to clipboard.").
 export function createCopyHandler(
   button: HTMLButtonElement,
-  url: string,
+  text: string,
   status?: HTMLElement | null,
+  label = "Link",
 ): () => Promise<void> {
   const originalHTML = button.innerHTML;
   let resetTimer: ReturnType<typeof setTimeout> | undefined;
 
   return async () => {
-    const copied = await copyText(url);
+    const copied = await copyText(text);
 
     button.textContent = copied ? "Copied!" : "Copy failed";
     if (status) {
       status.textContent = copied
-        ? "Link copied to clipboard."
-        : `Couldn't copy automatically. The link is ${url}`;
+        ? `${label} copied to clipboard.`
+        : `Couldn't copy automatically. The ${label.toLowerCase()} is: ${text}`;
     }
 
     clearTimeout(resetTimer);
@@ -52,10 +54,13 @@ function fallbackCopy(text: string): boolean {
   }
 }
 
+// Each button announces through the [data-copy-status] region that shares its
+// parent, so several copy buttons can live on one page.
 export function initClipboard(): void {
-  const status = document.querySelector<HTMLElement>("[data-copy-status]");
-  document.querySelectorAll<HTMLButtonElement>("[data-copy-url]").forEach((button) => {
-    const url = button.getAttribute("data-copy-url") ?? "";
-    button.addEventListener("click", createCopyHandler(button, url, status));
+  document.querySelectorAll<HTMLButtonElement>("[data-copy-text]").forEach((button) => {
+    const text = button.getAttribute("data-copy-text") ?? "";
+    const label = button.getAttribute("data-copy-label") ?? undefined;
+    const status = button.parentElement?.querySelector<HTMLElement>("[data-copy-status]");
+    button.addEventListener("click", createCopyHandler(button, text, status, label));
   });
 }

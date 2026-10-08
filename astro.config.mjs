@@ -1,9 +1,10 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
+import { SITE_URL } from "./src/consts.ts";
 
 export default defineConfig({
-  site: "https://noagendanomeeting.net",
+  site: SITE_URL,
   output: "static",
   // Astro 7 defaults to "jsx", which drops whitespace between inline elements
   // across line breaks (e.g. "says<em>Quick sync</em>with").
