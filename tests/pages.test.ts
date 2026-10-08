@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { DECLINE_REPLY } from "../src/consts";
+import { DATE_MODIFIED, DECLINE_REPLY } from "../src/consts";
 import { loadDist, loadDocument } from "./setup";
 
 describe("404 page", () => {
@@ -42,6 +42,7 @@ describe("sitemap", () => {
     const sitemap = loadDist("sitemap-0.xml");
     expect(sitemap).toContain("<loc>https://noagendanomeeting.net");
     expect(sitemap).not.toContain("404");
+    expect(sitemap).toContain(`<lastmod>${DATE_MODIFIED}`);
   });
 });
 

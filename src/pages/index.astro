@@ -2,11 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Invite from "../components/Invite.astro";
 import InviteField from "../components/InviteField.astro";
-import { BOOK_LINK, DECLINE_REPLY, SHARE_URL, SITE_HOST } from "../consts";
+import { BOOK_LINK, DECLINE_REPLY, HOME_TITLE, SHARE_URL, SITE_HOST } from "../consts";
 import { homeGraph } from "../jsonld";
 ---
 
-<BaseLayout structuredData={homeGraph}>
+<BaseLayout title={HOME_TITLE} structuredData={homeGraph}>
   <main id="content" class="mx-auto max-w-[640px] px-4 pt-8 pb-6 sm:px-6 sm:pt-12 sm:pb-8">
     <article>
       <h1 class="font-serif-display mb-3 text-3xl leading-[1.1] tracking-tight sm:text-[2.5rem]">
@@ -167,7 +167,7 @@ import { homeGraph } from "../jsonld";
           </li>
           <li>
             <strong>Attach a read-ahead.</strong> Let people prepare on their own time instead of draining
-            the first 15 minutes on information transfer.
+            the first 10 minutes on information transfer.
           </li>
         </ul>
 

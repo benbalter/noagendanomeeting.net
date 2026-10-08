@@ -5,6 +5,7 @@ import {
   DATE_MODIFIED,
   DATE_PUBLISHED,
   DESCRIPTION,
+  HOME_TITLE,
   SITE_NAME,
   SITE_URL,
 } from "./consts";
@@ -29,7 +30,7 @@ const website: WebSite = {
 const article: Article = {
   "@type": "Article",
   "@id": `${SITE_URL}#article`,
-  headline: SITE_NAME,
+  headline: HOME_TITLE,
   description: DESCRIPTION,
   url: SITE_URL,
   image: new URL("/og-image.png", SITE_URL).href,

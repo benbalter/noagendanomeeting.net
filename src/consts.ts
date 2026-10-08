@@ -3,6 +3,10 @@ export const SITE_URL = "https://noagendanomeeting.net/";
 export const SITE_HOST = new URL(SITE_URL).host;
 export const SHARE_URL = `https://${SITE_HOST}`;
 export const SITE_NAME = "No Agenda, No Meeting";
+// The brand alone doesn't say what the page is about in search results, so
+// the homepage title adds the topic. Keep it under ~60 characters so Google
+// doesn't truncate it.
+export const HOME_TITLE = `${SITE_NAME} — Why Every Invite Needs an Agenda`;
 
 export const DESCRIPTION =
   "No agenda, no meeting — why every calendar invite needs a clear agenda, how agendaless meetings waste time, and what to do instead.";
@@ -19,7 +23,10 @@ export const DATE_MODIFIED = "2026-10-08";
 // A copy-paste reply to an agenda-less invite, adapted from the note in
 // Open & Async's "Meetings are a point of escalation" chapter. The book's
 // "this belongs in an issue" is generalized for non-GitHub readers.
-export const DECLINE_REPLY = `Happy to join once there's an agenda and a desired outcome. Until then, could we start in a doc or thread? (Here's why: ${SITE_HOST})`;
+// No link to this site in the reply: citing a site at someone, especially a
+// manager, reads as a lecture. The share button covers sending the link.
+export const DECLINE_REPLY =
+  "Happy to join once there's an agenda and a desired outcome. Until then, could we start in a doc or thread?";
 
 // Canonical book URL and @id, matching open-and-async.com's own JSON-LD.
 export const BOOK_URL = "https://open-and-async.com/";
