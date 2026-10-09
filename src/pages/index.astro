@@ -5,7 +5,14 @@ import InviteField from "../components/InviteField.astro";
 import CopyCard from "../components/CopyCard.astro";
 import BookCta from "../components/BookCta.astro";
 import { CircleCheck, CircleX, Copy, Paperclip } from "@lucide/astro";
-import { AGENDA_TEMPLATE, DECLINE_REPLY, HOME_TITLE, SHARE_URL, SITE_HOST } from "../consts";
+import {
+  AGENDA_TEMPLATE,
+  DECLINE_REPLY,
+  HOME_TITLE,
+  REPO_URL,
+  SHARE_URL,
+  SITE_HOST,
+} from "../consts";
 import { homeGraph } from "../jsonld";
 ---
 
@@ -228,6 +235,13 @@ import { homeGraph } from "../jsonld";
         rel="noopener"
         class="underline hover:text-gray-700 dark:hover:text-gray-300"
         >nohello.net</a
+      >
+      <span aria-hidden="true">&middot;</span>
+      <a
+        href={REPO_URL}
+        rel="noopener"
+        class="underline hover:text-gray-700 dark:hover:text-gray-300"
+        >Source on GitHub</a
       >
     </p>
   </footer>

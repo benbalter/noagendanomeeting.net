@@ -135,6 +135,13 @@ describe("Page Content", () => {
     expect(h1?.textContent).toContain(".");
   });
 
+  it("should link to the source repository from the footer", () => {
+    const link = document.querySelector(
+      'footer a[href="https://github.com/open-and-async/noagendanomeeting.net"]',
+    );
+    expect(link?.textContent?.trim()).toBe("Source on GitHub");
+  });
+
   it("should credit nohello.net as inspiration", () => {
     const link = document.querySelector('a[href="https://nohello.net"]');
     expect(link).not.toBeNull();
