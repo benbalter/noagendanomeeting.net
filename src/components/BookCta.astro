@@ -7,6 +7,7 @@
  * site in both light and dark mode.
  */
 import { Image } from "astro:assets";
+import { COMMIT_GRAPH_PATHS } from "../brand";
 import { AUTHOR, BOOK_LINK } from "../consts";
 import cover from "../assets/img/open-and-async-cover.webp";
 ---
@@ -22,23 +23,8 @@ import cover from "../assets/img/open-and-async-cover.webp";
     fill="none"
     preserveAspectRatio="xMidYMid meet"
     aria-hidden="true"
-  >
-    <path d="M0 30 H 1200" stroke="#d0d820" stroke-width="2.5"></path>
-    <path
-      d="M340 30 C 420 30, 440 12, 520 12 S 680 30, 760 30"
-      stroke="#f070a8"
-      stroke-width="2"
-    ></path>
-    <path
-      d="M620 30 C 700 30, 720 48, 800 48 S 940 36, 1000 30"
-      stroke="#d0d820"
-      stroke-width="2"
-    ></path>
-    <circle cx="240" cy="30" r="6" fill="#d0d820"></circle>
-    <circle cx="520" cy="12" r="5" fill="#f070a8"></circle>
-    <circle cx="800" cy="48" r="5" fill="#d0d820"></circle>
-    <circle cx="1000" cy="30" r="8" fill="none" stroke="#d0d820" stroke-width="2.5"></circle>
-  </svg>
+    set:html={COMMIT_GRAPH_PATHS}
+  />
   <div class="relative flex flex-col items-center gap-6 sm:flex-row sm:text-left">
     <Image
       src={cover}
