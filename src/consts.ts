@@ -19,7 +19,7 @@ export const OG_IMAGE_ALT =
   "No Agenda, No Meeting — Please don't send meeting invites without an agenda.";
 
 export const DATE_PUBLISHED = "2026-04-05";
-export const DATE_MODIFIED = "2026-10-08";
+export const DATE_MODIFIED = "2026-10-09";
 
 // A copy-paste reply to an agenda-less invite, adapted from the note in
 // Open & Async's "Meetings are a point of escalation" chapter. The book's
@@ -28,6 +28,14 @@ export const DATE_MODIFIED = "2026-10-08";
 // manager, reads as a lecture. The share button covers sending the link.
 export const DECLINE_REPLY =
   "Happy to join once there's an agenda and a desired outcome. Until then, could we start in a doc or thread?";
+
+// The good invite's example agenda. AGENDA_TEMPLATE below follows the same
+// shape, so the example and the template teach one pattern.
+export const EXAMPLE_AGENDA = [
+  "Current status of API migration (5 min)",
+  "Open questions on the deployment window (10 min)",
+  "Decision: go/no-go for the beta release (15 min)",
+];
 
 // A copy-paste agenda for organizers, mirroring the page's good-invite
 // example: the decision first, time-boxed items, then the read-ahead.

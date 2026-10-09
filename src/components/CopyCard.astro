@@ -1,5 +1,5 @@
 ---
-import { Copy } from "@lucide/astro";
+import { CalendarPlus, Copy } from "@lucide/astro";
 
 interface Props {
   heading: string;
@@ -8,36 +8,53 @@ interface Props {
   label: string;
   // Keep line breaks and indentation, for multi-line text like the agenda template.
   preformatted?: boolean;
+  // "invite" dresses the card as a blank calendar invite, so the template reads
+  // as the third invite on the page: the one the reader fills in.
+  variant?: "plain" | "invite";
 }
 
-const { heading, text, label, preformatted = false } = Astro.props;
+const { heading, text, label, preformatted = false, variant = "plain" } = Astro.props;
+const invite = variant === "invite";
 // The <pre> uses set:text so formatter whitespace inside it never renders.
 ---
 
 <div
-  class="dark:border-brand-600 dark:bg-brand-900 my-6 rounded-lg border border-gray-300 bg-white px-5 py-4 shadow-sm"
+  class:list={[
+    "dark:border-brand-600 dark:bg-brand-900 my-6 border border-gray-300 bg-white shadow-sm",
+    invite ? "overflow-hidden rounded-xl" : "rounded-lg px-5 py-4",
+  ]}
 >
-  <h3 class="mb-2 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
+  <h3
+    class:list={[
+      "text-xs font-semibold tracking-wider uppercase",
+      invite
+        ? "text-accent-alt dark:border-accent-alt/40 dark:bg-brand-950 flex items-center gap-2 border-b-2 border-pink-200 bg-pink-50 px-4 py-3"
+        : "mb-2 text-gray-500 dark:text-gray-400",
+    ]}
+  >
+    {invite && <CalendarPlus aria-hidden="true" size={14} />}
     {heading}
   </h3>
-  {preformatted ? (
-    <pre
-      class="mb-3 font-sans text-[0.95rem] whitespace-pre-wrap text-gray-700 dark:text-gray-300"
-      set:text={text}
-    />
-  ) : (
-    <blockquote class="mb-3 text-[0.95rem] text-gray-700 dark:text-gray-300">
-      <p>{text}</p>
-    </blockquote>
-  )}
-  <button
-    type="button"
-    data-copy-text={text}
-    data-copy-label={label}
-    class="text-accent-alt hover:border-accent-alt dark:border-brand-600 dark:bg-brand-950 dark:hover:bg-brand-900 inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1 text-sm transition-colors hover:bg-pink-50"
-  >
-    Copy {label.toLowerCase()}
-    <Copy aria-hidden="true" size={14} class="text-gray-500 dark:text-gray-400" />
-  </button>
-  <span role="status" class="sr-only" data-copy-status></span>
+  <div class={invite ? "p-4" : undefined}>
+    {preformatted ? (
+      <pre
+        class="mb-3 font-sans text-[0.95rem] whitespace-pre-wrap text-gray-700 dark:text-gray-300"
+        set:text={text}
+      />
+    ) : (
+      <blockquote class="mb-3 text-[0.95rem] text-gray-700 dark:text-gray-300">
+        <p>{text}</p>
+      </blockquote>
+    )}
+    <button
+      type="button"
+      data-copy-text={text}
+      data-copy-label={label}
+      class="text-accent-alt hover:border-accent-alt dark:border-brand-600 dark:bg-brand-950 dark:hover:bg-brand-900 inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm transition-colors hover:bg-pink-50"
+    >
+      Copy {label.toLowerCase()}
+      <Copy aria-hidden="true" size={14} class="text-gray-500 dark:text-gray-400" />
+    </button>
+    <span role="status" class="sr-only" data-copy-status></span>
+  </div>
 </div>
