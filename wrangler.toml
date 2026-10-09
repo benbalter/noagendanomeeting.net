@@ -6,6 +6,10 @@ compatibility_date = "2026-04-05"
 # Serve only on the custom domain so *.workers.dev copies aren't indexed.
 workers_dev = false
 preview_urls = false
+# Workers Builds runs `wrangler preview` for non-main branches, which fails
+# without a previews block. Empty: the site has no bindings or vars to split.
+# With preview_urls off, PR builds pass but publish no reachable URL.
+previews = {}
 
 [build]
 command = "npm install && npm run build"
