@@ -49,6 +49,18 @@ describe("createCopyHandler", () => {
     vi.useRealTimers();
   });
 
+  it("should hold the button's width while showing the status, then release it", async () => {
+    vi.useFakeTimers();
+    Object.defineProperty(button, "offsetWidth", { configurable: true, value: 120 });
+    const handler = createCopyHandler(button, "https://noagendanomeeting.net");
+    await handler();
+    expect(button.style.minWidth).toBe("120px");
+
+    vi.advanceTimersByTime(RESET_DELAY_MS);
+    expect(button.style.minWidth).toBe("");
+    vi.useRealTimers();
+  });
+
   it("should fall back to execCommand when clipboard API fails", async () => {
     Object.assign(navigator, {
       clipboard: { writeText: vi.fn().mockRejectedValue(new Error("Not allowed")) },

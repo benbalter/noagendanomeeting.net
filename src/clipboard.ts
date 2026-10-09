@@ -13,6 +13,8 @@ export function createCopyHandler(
   return async () => {
     const copied = await copyText(text);
 
+    // Hold the button's width so the shorter status text doesn't shift the layout.
+    button.style.minWidth = `${button.offsetWidth}px`;
     button.textContent = copied ? "Copied!" : "Copy failed";
     if (status) {
       status.textContent = copied
@@ -23,6 +25,7 @@ export function createCopyHandler(
     clearTimeout(resetTimer);
     resetTimer = setTimeout(() => {
       button.innerHTML = originalHTML;
+      button.style.minWidth = "";
       if (status) status.textContent = "";
     }, RESET_DELAY_MS);
   };

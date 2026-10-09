@@ -34,7 +34,7 @@ describe("Checklist Sections", () => {
 
   it("should contain key advice phrases", () => {
     const text = document.querySelector("main")?.textContent ?? "";
-    expect(text).toContain("Decline politely");
+    expect(text).toContain("decline politely");
     expect(text).toContain("Write first, meet second");
     expect(text).toContain("Include clear goals");
     expect(text).toContain("Attach a read-ahead");

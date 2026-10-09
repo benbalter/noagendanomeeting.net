@@ -13,9 +13,19 @@ describe("Page Content", () => {
     expect(h1?.textContent).toContain("No Agenda, No Meeting");
   });
 
+  // The primary reader is the organizer who was sent this link, so the
+  // subtitle makes the case rather than telling them off.
   it("should have the subtitle about agendas", () => {
     const text = document.querySelector("main")?.textContent ?? "";
-    expect(text).toContain("don't send meeting invites without an agenda");
+    expect(text).toContain("Why every meeting invite needs an agenda");
+    expect(text).not.toContain("Please don't send");
+  });
+
+  it("should show the fix as a struck-through subject rewritten with a goal", () => {
+    const del = document.querySelector("main del");
+    const ins = document.querySelector("main ins");
+    expect(del?.textContent).toContain("Quick sync");
+    expect(ins?.textContent).toContain("Q3 launch: go/no-go decision");
   });
 
   it("should keep spaces between inline elements", () => {
@@ -25,15 +35,15 @@ describe("Page Content", () => {
     expect(text).toContain("Inspired by nohello.net");
   });
 
-  it("should have a Don't do this section", () => {
+  it("should have a before section", () => {
     const headings = Array.from(document.querySelectorAll("h2"));
-    const found = headings.some((h) => h.textContent?.includes("Don't do this"));
+    const found = headings.some((h) => h.textContent?.includes("Before:"));
     expect(found).toBe(true);
   });
 
-  it("should have a Try this instead section", () => {
+  it("should have a after section", () => {
     const headings = Array.from(document.querySelectorAll("h2"));
-    const found = headings.some((h) => h.textContent?.includes("Try this instead"));
+    const found = headings.some((h) => h.textContent?.includes("After:"));
     expect(found).toBe(true);
   });
 
@@ -43,10 +53,16 @@ describe("Page Content", () => {
     expect(found).toBe(true);
   });
 
-  it("should have a What to do instead section", () => {
-    const headings = Array.from(document.querySelectorAll("h2"));
-    const found = headings.some((h) => h.textContent?.includes("What to do instead"));
-    expect(found).toBe(true);
+  // Advice is split by reader so "you" always means the same person.
+  it("should have separate sections for organizers and invitees", () => {
+    const headings = Array.from(document.querySelectorAll("h2")).map((h) => h.textContent ?? "");
+    expect(headings.some((h) => h.includes("If you're organizing"))).toBe(true);
+    expect(headings.some((h) => h.includes("If you got an invite like this"))).toBe(true);
+  });
+
+  it("should put the agenda template with the organizer advice", () => {
+    const button = document.querySelector('main [data-copy-label="Template"]');
+    expect(button?.closest("section")?.getAttribute("aria-labelledby")).toBe("if-youre-organizing");
   });
 
   // Published figures vary widely and none supports the old "40%" claim.

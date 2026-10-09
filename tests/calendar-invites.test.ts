@@ -19,7 +19,7 @@ describe("Calendar Invite Examples", () => {
     expect(text).toContain("Quick sync");
   });
 
-  it("should show (none) for missing agenda, context, and goals", () => {
+  it("should show (none) for the missing goal, agenda, and read-ahead", () => {
     const noneElements = Array.from(document.querySelectorAll("span")).filter(
       (el) => el.textContent?.trim() === "(none)",
     );

@@ -4,10 +4,11 @@ import Invite from "../components/Invite.astro";
 import InviteField from "../components/InviteField.astro";
 import CopyCard from "../components/CopyCard.astro";
 import BookCta from "../components/BookCta.astro";
-import { CircleCheck, CircleX, Copy, Paperclip } from "@lucide/astro";
+import { ArrowRight, CircleCheck, CircleX, Copy, Paperclip, Share } from "@lucide/astro";
 import {
   AGENDA_TEMPLATE,
   DECLINE_REPLY,
+  EXAMPLE_AGENDA,
   HOME_TITLE,
   REPO_URL,
   SHARE_URL,
@@ -23,31 +24,57 @@ import { homeGraph } from "../jsonld";
         No Agenda<span class="text-accent">,</span> No Meeting<span class="text-accent">.</span>
       </h1>
       <p class="mb-10 text-lg text-gray-500 dark:text-gray-400">
-        Please don't send meeting invites without an agenda.
+        Why every meeting invite needs an agenda, and how to add one.
       </p>
 
       <p
-        class="mb-8 text-[1.125rem] leading-[1.5] font-medium text-gray-700 sm:text-xl dark:text-gray-300"
+        class="mb-6 text-[1.125rem] leading-[1.5] font-medium text-gray-700 sm:text-xl dark:text-gray-300"
       >
         Imagine getting a calendar invite that just says
-        <em class="not-italic underline decoration-[#e74c3c] underline-offset-[3px]"
+        <em
+          class="not-italic underline decoration-red-600 underline-offset-[3px] dark:decoration-red-400"
           >"Quick sync"</em
         >
-        with zero context&hellip; and having no idea what it's about. 🤦
+        with zero context&hellip; and having no idea what it's about. We've all gotten one. Most of
+        us have sent one, too.
       </p>
+
+      <!-- The whole fix in one line, marked up in the accent "correction pen", so
+           it shows on a phone's first screen before the full comparison. -->
+      <div class="dark:border-brand-600 mb-2 border-y border-gray-200 py-4">
+        <p class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+          <span
+            class="text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
+            >Subject</span
+          >
+          <del class="decoration-accent text-gray-500 decoration-2 dark:text-gray-400"
+            ><span class="sr-only">from </span>Quick sync</del
+          >
+          <!-- Arrow and new subject wrap as one unit, so the arrow never dangles. -->
+          <span class="inline-flex items-center gap-2">
+            <ArrowRight aria-hidden="true" size={16} class="text-accent shrink-0" />
+            <ins class="font-semibold no-underline"
+              ><span class="sr-only">to </span>Q3 launch: go/no-go decision</ins
+            >
+          </span>
+        </p>
+        <p class="mt-2 text-[0.95rem] text-gray-600 dark:text-gray-400">
+          Name the decision, list what you'll cover, and attach the read-ahead&mdash;that's it.
+        </p>
+      </div>
 
       <!-- On wide screens the two invites sit side by side, breaking out of the
            text column, since the contrast between them is the page's argument. -->
       <div
         class="lg:relative lg:left-1/2 lg:grid lg:w-[60rem] lg:-translate-x-1/2 lg:grid-cols-2 lg:gap-10"
       >
-        <section aria-labelledby="dont-do-this">
+        <section aria-labelledby="before">
           <h2
-            id="dont-do-this"
+            id="before"
             class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
           >
             <CircleX aria-hidden="true" size={22} class="text-red-600 dark:text-red-400" />
-            <span>Don't do this</span>
+            <span>Before: the mystery invite</span>
           </h2>
 
           <Invite
@@ -56,26 +83,26 @@ import { homeGraph } from "../jsonld";
             reaction="Am I in trouble? Do I need to prepare? What is this even about? 😰"
           >
             <InviteField label="When" value="Tuesday, 2:00 – 2:30 PM" />
+            <InviteField label="Goal" />
             <InviteField label="Agenda" />
-            <InviteField label="Context" />
-            <InviteField label="Goals" />
+            <InviteField label="Read-ahead" />
           </Invite>
 
           <p class="mb-4 leading-relaxed">
-            You've just forced everyone on the invite to context-switch <em>twice</em>&mdash;once to
-            figure out what this is about, and again in the meeting when they arrive unprepared. A
+            An invite like this makes everyone on it context-switch <em>twice</em>&mdash;once to
+            figure out what it's about, and again in the meeting when they arrive unprepared. A
             meeting without an agenda is like calling a function without documentation&mdash;you
             don't know what inputs to prepare or what outputs to expect.
           </p>
         </section>
 
-        <section aria-labelledby="try-this-instead">
+        <section aria-labelledby="after">
           <h2
-            id="try-this-instead"
+            id="after"
             class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
           >
             <CircleCheck aria-hidden="true" size={22} class="text-green-700 dark:text-green-400" />
-            <span>Try this instead</span>
+            <span>After: same meeting, with an agenda</span>
           </h2>
 
           <Invite
@@ -84,6 +111,7 @@ import { homeGraph } from "../jsonld";
             reaction="Everyone arrives prepared. The meeting is focused. Better decisions get made. ✨"
           >
             <InviteField label="When" value="Tuesday, 2:00 – 2:30 PM" />
+            <InviteField label="Goal" value="Decide whether the Q3 beta ships" />
             <div class="dark:border-brand-600 mt-3 border-t border-gray-100 pt-3">
               <div
                 class="mb-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400"
@@ -91,9 +119,7 @@ import { homeGraph } from "../jsonld";
                 Agenda
               </div>
               <ol class="list-decimal pl-5 text-sm text-gray-700 dark:text-gray-300">
-                <li class="py-0.5">Current status of API migration (5 min)</li>
-                <li class="py-0.5">Open questions on the deployment window (10 min)</li>
-                <li class="py-0.5">Decision: go/no-go for the beta release (15 min)</li>
+                {EXAMPLE_AGENDA.map((item) => <li class="py-0.5">{item}</li>)}
               </ol>
             </div>
             <div class="mt-2 flex items-center gap-1.5 text-sm">
@@ -104,8 +130,8 @@ import { homeGraph } from "../jsonld";
           </Invite>
 
           <p class="mb-4 leading-relaxed">
-            Notice how the second invite respects everyone's time? Attendees can prepare, the
-            meeting stays on track, and you might even finish early.
+            Same time slot, same 30 minutes&mdash;but now everyone can prepare, the meeting stays on
+            track, and you might even finish early.
           </p>
         </section>
       </div>
@@ -120,13 +146,11 @@ import { homeGraph } from "../jsonld";
           Why this matters
         </h2>
 
-        <div
-          class="border-accent-alt dark:bg-brand-900 my-6 rounded-r-lg border-l-4 bg-pink-50 px-5 py-4 text-[0.95rem]"
-        >
+        <p class="dark:bg-brand-900 my-6 rounded-lg bg-pink-50 px-5 py-4 text-[0.95rem]">
           Depending on whose survey you read, knowledge workers spend
           <strong class="text-ink dark:text-white">one to two full days a week in meetings</strong
           >&mdash;before they even start the "real work."
-        </div>
+        </p>
 
         <p class="mb-4 leading-relaxed">Every agenda-less meeting carries hidden costs:</p>
 
@@ -140,24 +164,21 @@ import { homeGraph } from "../jsonld";
             vague promise to "circle back."
           </li>
           <li>
-            Context-switching to and from a mystery meeting destroys the deep focus work that
+            Context-switching to and from a mystery meeting breaks up the deep focus work that
             creates actual value.
           </li>
-          <li>
-            If the organizer hasn't distilled their thoughts into writing, why should they get to
-            decide how <em>you</em> spend your time?
-          </li>
+          <li>Nobody can tell whether they're needed, so everyone comes "just in case."</li>
         </ul>
       </section>
 
       <hr class="dark:border-brand-600 my-10 border-t border-gray-200" />
 
-      <section aria-labelledby="what-to-do-instead">
+      <section aria-labelledby="if-youre-organizing">
         <h2
-          id="what-to-do-instead"
+          id="if-youre-organizing"
           class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
         >
-          What to do instead
+          If you're organizing
         </h2>
 
         <p class="text-ink mt-6 mb-4 text-lg leading-snug font-medium dark:text-gray-200">
@@ -172,16 +193,16 @@ import { homeGraph } from "../jsonld";
 
         <ul class="arrow-list">
           <li>
-            <strong>No agenda? Decline politely</strong>&mdash;or at least ask for one. It's well
-            within your rights.
-          </li>
-          <li>
             <strong>Write first, meet second.</strong> Transfer context asynchronously and schedule
             a meeting only if the conversation requires it.
           </li>
           <li>
             <strong>Include clear goals.</strong> What decision needs to be made? What question
-            needs to be answered? If you can't articulate it, you don't need a meeting.
+            needs to be answered? If you can't put it in a sentence, start with a doc.
+          </li>
+          <li>
+            <strong>Time-box the agenda.</strong> A few minutes per item tells people what matters
+            and keeps the meeting from drifting.
           </li>
           <li>
             <strong>Attach a read-ahead.</strong> Let people prepare on their own time instead of
@@ -189,24 +210,41 @@ import { homeGraph } from "../jsonld";
           </li>
         </ul>
 
-        <CopyCard heading="What to send back" text={DECLINE_REPLY} label="Reply" />
-
         <CopyCard
-          heading="Organizing? Copy this agenda template"
+          heading="Agenda template"
           text={AGENDA_TEMPLATE}
           label="Template"
           preformatted
+          variant="invite"
         />
+      </section>
+
+      <hr class="dark:border-brand-600 my-10 border-t border-gray-200" />
+
+      <section aria-labelledby="if-you-got-one">
+        <h2
+          id="if-you-got-one"
+          class="mt-10 mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight"
+        >
+          If you got an invite like this
+        </h2>
 
         <p class="mb-4 leading-relaxed">
-          Writing scales; meetings don't. A well-written document can reach hundreds of people at
-          their convenience without interrupting anyone's flow. A meeting reaches only the people in
-          the room, only at that exact moment.
+          <strong>No agenda? Ask for one, or decline politely.</strong> It's a reasonable request,
+          and it often gets you a better meeting.
         </p>
+
+        <CopyCard heading="What to send back" text={DECLINE_REPLY} label="Reply" />
       </section>
+
+      <p class="text-ink mt-10 text-lg leading-snug font-medium dark:text-gray-200">
+        Writing scales; meetings don't. A well-written document can reach hundreds of people at
+        their convenience without interrupting anyone's flow. A meeting reaches only the people in
+        the room, only at that exact moment.
+      </p>
     </article>
 
-    <hr class="dark:border-brand-600 my-10 border-t border-gray-200" />
+    <hr class="dark:border-brand-600 mt-10 border-t border-gray-200" />
   </main>
 
   <footer class="mx-auto max-w-[640px] px-4 pb-8 sm:px-6">
@@ -218,10 +256,22 @@ import { homeGraph } from "../jsonld";
         type="button"
         data-copy-text={SHARE_URL}
         data-share
-        class="text-accent-alt hover:border-accent-alt dark:border-brand-600 dark:bg-brand-950 dark:hover:bg-brand-900 mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1 font-mono text-sm transition-colors hover:bg-pink-50"
+        class="text-accent-alt hover:border-accent-alt dark:border-brand-600 dark:bg-brand-950 dark:hover:bg-brand-900 mt-2 inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-gray-300 bg-white px-4 py-2 font-mono text-sm transition-colors hover:bg-pink-50"
       >
-        <span class="sr-only">Copy </span>{SITE_HOST}
-        <Copy aria-hidden="true" size={14} class="text-gray-500 dark:text-gray-400" />
+        <!-- Touch screens open the share sheet (see canNativeShare), so they get
+             a share icon and name; everything else copies. -->
+        <span class="sr-only pointer-coarse:hidden">Copy </span
+        ><span class="hidden pointer-coarse:inline pointer-coarse:sr-only">Share </span>{SITE_HOST}
+        <Copy
+          aria-hidden="true"
+          size={14}
+          class="text-gray-500 pointer-coarse:hidden dark:text-gray-400"
+        />
+        <Share
+          aria-hidden="true"
+          size={14}
+          class="hidden text-gray-500 pointer-coarse:inline dark:text-gray-400"
+        />
       </button>
       <span role="status" class="sr-only" data-copy-status></span>
     </div>
