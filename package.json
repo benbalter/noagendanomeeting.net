@@ -47,7 +47,7 @@
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^1.0.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "schema-dts": "2.0.0",
+    "schema-dts": "2.1.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^6.0.2",
     "vitest": "^5.0.0",
